@@ -7,7 +7,7 @@
 
 /* App Module */
 
-var mybanknow = angular.module('mybanknow', ['ui.router','ngCookies','ui.bootstrap','angularValidator','ngFileUpload']);
+var mybanknow = angular.module('mybanknow', ['ui.router','ngCookies','angularValidator']);
 
 mybanknow.run(['$rootScope', '$state',function($rootScope, $state){
 
@@ -237,14 +237,17 @@ mybanknow.directive('myCustomer', function() {
 mybanknow.controller('index', function($scope,$state,$cookieStore) {
 
 
+    $scope.form={};
+
+
     setTimeout(function() {
-       $('.about').click(function(){
-           $('html, body').animate({
-               scrollTop: $('div.home_body_block1_section').offset().top
-           }, 2000);
+        $('.about').click(function(){
+            $('html, body').animate({
+                scrollTop: $('div.home_body_block1_section').offset().top
+            }, 2000);
 
 
-       })
+        })
 
         $('.enroll').click(function(){
             $('html, body').animate({
@@ -273,6 +276,45 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
 
     },2000);
 
+    $scope.customvalidator=function(){
+
+        console.log(typeof($scope.form.agent_name));
+        console.log(typeof($scope.form.have_agent));
+        console.log(typeof($scope.form.agent_number));
+
+        if(typeof ($scope.form.have_agent)=='undefined' ){
+
+            if( typeof($scope.form.agent_name)=='undefined' || typeof($scope.form.agent_number)=='undefined'){
+
+                console.log(typeof($scope.form.agent_name));
+                console.log('in error');
+
+                return "Either put Agent Name and Number or Let us know from where you learned about Mybank Now ?";
+
+            }
+
+
+
+        }
+        else{
+            if($scope.form.have_agent.length==0){
+
+                if( $scope.form.agent_name.length==0 || $scope.form.agent_number.length==0){
+
+                    console.log(($scope.form.agent_name));
+                    console.log('in error');
+
+                    return "Either put Agent Name and Number or Let us know from where you learned about Mybank Now ?";
+
+                }
+
+            }
+
+        }
+
+        return true;
+    }
+
     $scope.carrer_sellingform=function(){
 
         $('#carrer_selling').modal('show');
@@ -291,10 +333,10 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
         $('#contactsupportsubmitshowmodal').modal('show');
     }
 
-$scope.contactformsubmit=function(){
-  $('#contactowmodal').modal('show');
-}
- });
+    $scope.contactformsubmit=function(){
+        $('#contactowmodal').modal('show');
+    }
+});
 
 mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootScope) {
     $scope.login = function(){
@@ -337,16 +379,16 @@ mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootSco
                     return
                 }else{
 */
-                 //   $state.go('dashboard');
-                  //  return
-               // }
+                //   $state.go('dashboard');
+                //  return
+                // }
 
             }else{
                 $scope.errormsg = data.msg;
             }
 
         });
-}
+    }
 });
 mybanknow.controller('businessaccount', function($scope,$state,$http,$cookieStore,$rootScope) {
     $scope.businessaccountsubmit = function(){
@@ -366,7 +408,7 @@ mybanknow.controller('personalsignup', function($scope,$state,$http,$cookieStore
 
 mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$rootScope,$log) {
     // $state.go('login');
-     // if($cookieStote.get('userid'))
+    // if($cookieStote.get('userid'))
     if(angular.element('head').find('link[href="css/admin_style.css"]').length==0)angular.element('head').append('<link id="home" href="css/admin_style.css" rel="stylesheet">');
 
     $scope.toggledropdown = function () {
@@ -376,7 +418,7 @@ mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$
     }
 
 
-     $scope.logout = function () {
+    $scope.logout = function () {
         $cookieStore.remove('userid');
         $cookieStore.remove('username');
         $cookieStore.remove('useremail');
@@ -385,6 +427,6 @@ mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$
     }
 
 
-   // console.log('in admin header');
+    // console.log('in admin header');
 });
 

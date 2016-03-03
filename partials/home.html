@@ -519,8 +519,7 @@
 
                                 <input type="text" placeholder="My Agent Is..." class="home_form_input form-control"  name="agent_name"
                                        ng-model="form.agent_name"
-                                       required-message="'Agent name can not be blank.'"
-                                       required
+
                                 >
                                 <div class="clearfix"></div>
 
@@ -530,8 +529,7 @@
 
                                  <input type="text" placeholder="My Agent's Mobile Number is..." class="home_form_input form-control"  name="agent_number"
                                         ng-model="form.agent_number"
-                                        required-message="'Agent number can not be blank.'"
-                                        required
+
                                  >
                                  <div class="clearfix"></div>
 
@@ -542,8 +540,8 @@
 
                                 <input type="text" placeholder="I do not have an agent. I learned about MyBankNow from..." class="home_form_input form-control"  name="have_agent"
                                        ng-model="form.have_agent"
-                                       required-message="'Agent availability.'"
-                                       required
+                                       invalid-message="customvalidator()"
+                                       validator="customvalidator()==true"
                                 >
                                 <div class="clearfix"></div>
 
