@@ -2,6 +2,8 @@
 
 @media screen and (max-width:1920px) {
 
+	.home_banner_middle_block{padding-top:16%;}
+	
     .home_body_block3 h1{margin: 0px; font-family:'SourceSansPro-Semibold'; font-size: 80px; color: #b3babd; text-transform: uppercase; letter-spacing: 12px; padding-left: 15px;}
 
     .home_body_block1 .home_body_block1_section h1{font-size: 80px;}
@@ -24,6 +26,8 @@
 
 @media screen and (max-width:1680px) {
 
+	.home_banner_middle_block{padding-top:13%;}
+	
     .home_body_block3 h1{position: absolute; left:2px; font-family:'SourceSansPro-Semibold'; font-size: 54px; color: #9ca5a9; letter-spacing: 14px; text-transform: uppercase; margin: 0px; padding-left: 15px;}
 
     .home_body_block1 .home_body_block1_section h1{font-size: 54px;}
@@ -31,12 +35,15 @@
     .home_body_block4 .home_body_block4_left h1{font-size: 54px;}
 
     .home_body_block5 h1{font-size: 54px;}
+	
 
 }
 
 
 
 @media screen and (max-width:1600px) {
+
+	.home_banner_middle_block{padding-top:12%;}
 
     .home_body_block3 h1{position: absolute; left:2px; font-family:'SourceSansPro-Semibold'; font-size: 50px; color: #9ca5a9; letter-spacing: 14px; text-transform: uppercase; margin: 0px; padding-left: 15px;}
 
@@ -108,9 +115,13 @@
 
 }
 
-
+@media screen and (max-width:1366px) {
+.home_banner_middle_block{padding-top:9%;}
+}
 
 @media screen and (max-width:1360px) {
+
+	
 
     .home_body_block1 .home_body_block1_section h1{font-size: 24px; letter-spacing: 6px;}
 
@@ -121,6 +132,12 @@
     .home_body_block5 h1{font-size: 24px; letter-spacing: 6px;}
 
 
+
+}
+
+@media screen and (max-width:1300px) {
+.business_body_signup_block_con1{width:40%; margin-right:2%;}
+.business_body_signup_block_con2{float:right; width:58%;}
 
 }
 
@@ -266,6 +283,8 @@
 
 @media screen and (max-width:1199px) {
 
+	.home_banner_wrapper{padding-top:33%;}
+
     .home_banner_section .home_banner_menu_block{position: inherit; top: 0px; bottom: 0px; right: 0px; left: 0px;}
 
     .home_banner_middle_block{position: inherit; top: 0px; bottom: 0px; right: 0px; left: 0px; margin-top: 60px;}
@@ -287,6 +306,10 @@
 
 
 
+/*------business-account----*/
+
+.business_body_signup_block_con{width: 92%; margin: 0 auto; float: none; text-align: left;}
+.business_body_signup_block_con2{float:none; width:92%; margin:0 auto;}
 
 }
 
@@ -358,7 +381,7 @@
 
 
 
-    .business_body_signup_block_con{width: 80%; margin: 0 auto; float: none; text-align: left;}
+    
 
     .business_body_signup_checkbox{text-align: center; margin-top: 15px;}
 
@@ -419,10 +442,14 @@
 
 }
 
+@media screen and (max-width:750px) {
 
+	.business_body_signup_block_con label{float:none; text-align:center; width:100%; margin:6px 0 12px 0;}
+	.business_body_signup_input{float:none; width:100%;}
+	.business_body_signup_block_con .business_body_signup_textarea{float:none; width:100%;}
+	.pre_curency select{float:none; width:100%;}
 
-
-
+}
 
 
 @media screen and (max-width:600px) {
@@ -485,6 +512,9 @@
 
 
 
+	.peracc_body h1{font-size:26px; letter-spacing:3px;}
+	.peracc_body p{padding:0 10px;}
+
     .newacc_body_area{width: 90%;}
 
     .newacc_body_area_left{background: url("../images/newaccount_bodybox_divider2.png") no-repeat center bottom; background-size: 100%; width: 100%; float: none;}
@@ -501,10 +531,7 @@
 
     .business_body_signup_submit{width: 100%;}
 	
-	.business_body_signup_block_con label{float:none; text-align:center; width:100%; margin:6px 0 12px 0;}
-	.business_body_signup_input{float:none; width:100%;}
-	.business_body_signup_block_con .business_body_signup_textarea{float:none; width:100%;}
-	.pre_curency select{float:none; width:100%;}
+	
 
 }
 
