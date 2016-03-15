@@ -1,5 +1,7 @@
 <?php
 
+define('CUSTOM_URL','http://www.mybanknow.com');
+
 /**
  * @file
  * Drupal site-specific configuration file.

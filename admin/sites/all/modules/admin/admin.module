@@ -5,6 +5,7 @@
  * Date: 16/6/15
  * Time: 12:04 AM
  */
+
 header('Content-type: text/html');
 header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
 header("Access-Control-Allow-Credentials: true");
@@ -13,7 +14,7 @@ header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
 
-function finder_init() // init function called by defaulted when this module loaded by system
+function admin_init() // init function called by defaulted when this module loaded by system
 {
 
     //echo $GLOBALS['theme'];
@@ -32,61 +33,63 @@ function finder_init() // init function called by defaulted when this module loa
 
 }
 
-function finder_menu()
+function admin_menu()
 {
     $items = array();
 
-    $items['addfinder'] = array(
-        'title' => 'Add Finder',
-        'page callback' => 'addfinder',
+    $items['addadmin'] = array(
+        'title' => 'Add admin',
+        'page callback' => 'addadmin',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-    $items['finderlist'] = array(
-        'title' => 'Finder List',
-        'page callback' => 'finderlist',
+    $items['adminlist'] = array(
+        'title' => 'admin List',
+        'page callback' => 'adminlist',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-   $items['updatestatus'] = array(
+   $items['adminupdatestatus'] = array(
         'title' => 'status Change',
-        'page callback' => 'updatestatus',
+        'page callback' => 'adminupdatestatus',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-   $items['deletefinder'] = array(
-        'title' => 'Finder Delete',
-        'page callback' => 'deletefinder',
+   $items['deleteadmin'] = array(
+        'title' => 'admin Delete',
+        'page callback' => 'deleteadmin',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-   $items['finderdetails'] = array(
-        'title' => 'Finder details',
-        'page callback' => 'finderdetails',
+   $items['admindetails'] = array(
+        'title' => 'admin details',
+        'page callback' => 'admindetails',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-    $items['finderupdates'] = array(
-        'title' => 'Finder Updates',
-        'page callback' => 'finderupdates',
+    $items['adminupdates'] = array(
+        'title' => 'admin Updates',
+        'page callback' => 'adminupdates',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
-    $items['finderlogin'] = array(
+
+
+    $items['adminlogin'] = array(
         'title' => 'Login',
-        'page callback' => 'login',
+        'page callback' => 'adminlogin',
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
@@ -98,7 +101,7 @@ function finder_menu()
 }
 
 
-function finderdetails(){
+function admindetails(){
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
     header("Access-Control-Allow-Credentials: true");
@@ -107,9 +110,9 @@ function finderdetails(){
     header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
     $queryu = db_select('users', 'u');
-    $queryu->join('finder', 'f', 'f.user_id = u.uid');
+    $queryu->join('admin', 'a', 'a.user_id = u.uid');
      $queryu->fields('u', array('uid','created','status','login','mail'));
-    $queryu->fields('f',array('fname','lname','phone_no','mobile_no','address','contact_time','refferal_code','bname'))
+    $queryu->fields('a',array('fname','lname','phone_no','mobile_no','address'))
         ->condition('u.uid', $_POST['uid'], '=');
 
     //->range(0, 20);
@@ -133,9 +136,6 @@ function finderdetails(){
         $userlist['phone_no'] = $recordu['phone_no'];
         $userlist['mobile_no'] = $recordu['mobile_no'];
         $userlist['address'] = $recordu['address'];
-        $userlist['contact_time'] = $recordu['contact_time'];
-        $userlist['refferal_code'] = $recordu['refferal_code'];
-        $userlist['bname'] = $recordu['bname'];
         $userlist['picture'] = $picture;
     }
     echo json_encode(@$userlist);
@@ -143,7 +143,7 @@ function finderdetails(){
 }
 
 
-function finderlist()
+function adminlist()
 {
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -155,13 +155,13 @@ function finderlist()
     $userlist = array();
 
     $queryu = db_select('users', 'u');
-    $queryu->join('finder', 'f', 'f.user_id = u.uid');
+    $queryu->join('admin', 'f', 'f.user_id = u.uid');
     $queryu->leftjoin('users_roles', 'ur', 'ur.uid = u.uid');
     $queryu->fields('ur', array('rid'));
     $queryu->fields('u', array('uid', 'created', 'status', 'login', 'mail'));
-    $queryu->fields('f', array('fname', 'lname', 'phone_no', 'mobile_no', 'address', 'contact_time', 'refferal_code', 'bname'));
+    $queryu->fields('f', array('fname', 'lname', 'phone_no', 'mobile_no', 'address'))
         // ->condition('u.name', '%' . db_like('john') . '%', 'LIKE')
-        //->condition('ur.rid', 5, '=');
+        ->condition('ur.rid', 4, '=');
     //->condition('u.uid', 74, '=');
     //->range(0, 20);
     $resultu = $queryu->execute();
@@ -197,13 +197,8 @@ function finderlist()
             $userlist[$i]['phone_no'] = $recordu['phone_no'];
             $userlist[$i]['mobile_no'] = $recordu['mobile_no'];
             $userlist[$i]['address'] = $recordu['address'];
-            $userlist[$i]['contact_time'] = $recordu['contact_time'];
-            $userlist[$i]['refferal_code'] = $recordu['refferal_code'];
-            $userlist[$i]['bname'] = $recordu['bname'];
-            $userlist[$i]['picture'] = $picture;
+             $userlist[$i]['picture'] = $picture;
             $userlist[$i]['roleid'] = $recordu['rid'];
-            if($recordu['rid']==5)$userlist[$i]['role'] ='Client';
-            if($recordu['rid']==6)$userlist[$i]['role'] ='Agent';
             $i++;
 
     }
@@ -218,7 +213,7 @@ function finderlist()
 
 }
 
-function addfinder(){
+function addadmin(){
 
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -227,7 +222,7 @@ function addfinder(){
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
     $user = user_load_by_mail(trim(@$_POST['email']));
-    if(@$user->uid>0){
+    if(@$user->uid > 0){
         $data['status'] = 'error';
         $data['msg'] = 'Email already exists..';
         echo json_encode($data);
@@ -237,8 +232,7 @@ function addfinder(){
     $roles = array(
         DRUPAL_AUTHENTICATED_RID => 'authenticated user',
      );
-    if(@$_REQUEST['role']==5 )$roles[5]='Client';
-    if(@$_REQUEST['role']==6)$roles[6]='Agent';
+    $roles[4]='siteadmin';
 
     $new_user = array(
          'name' => $_POST['email'],
@@ -251,22 +245,22 @@ function addfinder(){
     $account=user_save('', $new_user);
 
     if($account->uid>0){
-        $query = db_insert('finder')->fields(array('user_id','refferal_code','email','password', 'fname', 'lname','bname','address','phone_no','mobile_no','contact_time','last_login'));
+        $query = db_insert('admin')->fields(array('user_id','email','password', 'fname', 'lname','address','phone_no','mobile_no','create_time','	last_login'));
         //foreach ($values as $record) {
-        $query->values(array($account->uid,'4',@$_POST['email'],'',@$_POST['fname'],@$_POST['lname'],'bn',
-            'ad','45','34','545',time()));
+        $query->values(array($account->uid,@$_POST['email'],'',@$_POST['fname'],@$_POST['lname'],
+            $_POST['address'],@$_POST['phone_no'],@$_POST['mobile_no'],time(),time()));
         //}
         $query->execute();
     }
 
     $op = 'register_pending_approval';
     $status = _user_mail_notify($op, $account);
-    drupal_mail('finder', 'register_admin_created', $_POST['email'], NULL, array('account' => $account), variable_get('site_mail', 'support@voortal.com'));
+    drupal_mail('admin', 'register_admin_created', $_POST['email'], NULL, array('account' => $account), variable_get('site_mail', 'support@voortal.com'));
     $data['status'] = 'success';
      echo json_encode($data);
     return;
 }
-function finderupdates(){
+function adminupdates(){
 
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -279,20 +273,20 @@ function finderupdates(){
         DRUPAL_AUTHENTICATED_RID => 'authenticated user',
         // 5 => 'General Users',
     );
-    $roles[5]='finder';
-    $user_fields = user_load(@intval($_POST['uid']));
+     $user_fields = user_load(@intval($_POST['uid']));
     $user_fields->roles=$roles;
     user_save($user_fields);
 
-
-    db_update('finder')
+    db_update('admin')
         //->expression('weight', 'weight + :weight', array(':weight' => 1))
-        ->fields(array( 'fname'=>@$_POST['fname'], 'lname'=>@$_POST['lname'], 'bname'=>$_POST['bname'],'address'=>@$_POST['address'],'phone_no'=>@$_POST['phone_no'],'mobile_no'=>@$_POST['mobile_no'],'contact_time'=>@$_POST['contact_time']))
+        ->fields(array('fname'=>@$_POST['fname'], 'lname'=>@$_POST['lname'],'email'=>@$_POST['email'],
+
+            'address'=>@$_POST['address'],'phone_no'=>@$_POST['phone_no'],'mobile_no'=>@$_POST['mobile_no']))
         ->condition('user_id', intval($_POST['uid']))
          ->execute();
 }
 
-function updatestatus(){
+function adminupdatestatus(){
 
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -314,7 +308,7 @@ function updatestatus(){
     echo "true";
 }
 
-function deletefinder(){
+function deleteadmin(){
 
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -327,12 +321,15 @@ function deletefinder(){
 
     //print_r($_POST);
     user_delete(@intval($_POST['uid']));
-    $num_deleted = db_delete('finder')
+    $num_deleted = db_delete('admin')
         ->condition('user_id', @$_POST['uid'])
         ->execute();
 
 }
-function login(){
+
+
+
+function adminlogin(){
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
     header("Access-Control-Allow-Credentials: true");
@@ -342,17 +339,21 @@ function login(){
     $user=user_load_by_mail(@$_POST['email']);
     if($user==''){
         $data['status']='error';
-        $data['msg']='Email dores not exists';
+        $data['msg']='Email does not exists';
         echo json_encode($data);
         return;
     }
     $user_check=user_authenticate($user->name,@$_POST['password']);
     if($user_check>0 && $user->status==1){
 
+        //print_r($user->roles);
+
         $queryu = db_select('users', 'u');
-        $queryu->join('finder', 'f', 'f.user_id = u.uid');
+        if($user->roles[4]=='siteadmin')$queryu->join('admin', 'a', 'a.user_id = u.uid');
+        if($user->roles[6]=='pilot')$queryu->join('pilot', 'p', 'p.user_id = u.uid');
         $queryu->fields('u', array('uid','created','status','login','mail'));
-        $queryu->fields('f',array('fname','lname','phone_no','mobile_no','address','contact_time','refferal_code','bname'))
+        if($user->roles[4]=='siteadmin')$queryu->fields('a',array('fname','lname','phone_no','mobile_no','address','create_time'));
+        if($user->roles[6]=='pilot')$queryu->fields('p',array('fname','lname'))
             ->condition('u.uid', $user->uid, '=');
 
         //->range(0, 20);
@@ -361,38 +362,42 @@ function login(){
 
 
         while($recordu = $resultu->fetchAssoc()) {
+            //echo 5435;
             $thisuser = user_load($recordu['uid']);
             $picture=$thisuser->picture;
             if(isset($picture->uri))$picture= image_style_url('thumbnail', $picture->uri);
             else $picture='';
 
-/*            $userlist['uid'] = $recordu['uid'];
-            $userlist['created'] = $recordu['created'];
-            $userlist['status'] = $recordu['status'];
-            $userlist['login'] = $recordu['login'];
- */         $userlist['email'] = $recordu['mail'];
+            //print_r($recordu);
+            //exit;
+
+            /*            $userlist['uid'] = $recordu['uid'];
+                        $userlist['created'] = $recordu['created'];
+                        $userlist['status'] = $recordu['status'];
+                        $userlist['login'] = $recordu['login'];
+             */         $userlist['email'] = $recordu['mail'];
             $userlist['fname'] = $recordu['fname'];
             $userlist['lname'] = $recordu['lname'];
-/*            $userlist['phone_no'] = $recordu['phone_no'];
-            $userlist['mobile_no'] = $recordu['mobile_no'];
-            $userlist['address'] = $recordu['address'];
-            $userlist['contact_time'] = $recordu['contact_time'];
-            $userlist['refferal_code'] = $recordu['refferal_code'];
-            $userlist['bname'] = $recordu['bname'];
-            $userlist['picture'] = $picture;*/
+            /*            $userlist['phone_no'] = $recordu['phone_no'];
+                        $userlist['mobile_no'] = $recordu['mobile_no'];
+                        $userlist['address'] = $recordu['address'];
+                        $userlist['contact_time'] = $recordu['contact_time'];
+                        $userlist['refferal_code'] = $recordu['refferal_code'];
+                        $userlist['bname'] = $recordu['bname'];
+                        $userlist['picture'] = $picture;*/
         }
 
         $userlist['id']=$user->uid;
         $userlist['roles']=$user->roles;
         $userlist['username']=$user->name;
-        $userlist['status'] = 'success';
+        $data['status'] = 'success';
         $data['userdetails'] = $userlist;
         echo json_encode($data);
         return;
 
     }
     else {
-        if($user_check>0 && $user->statsu==0) {
+        if($user_check>0 && $user->status==0) {
             $data['status'] = 'error';
             $data['msg'] = 'User is either not activated by admin yet or blocked !';
             echo json_encode($data);
@@ -406,4 +411,3 @@ function login(){
     }
 
 }
- 

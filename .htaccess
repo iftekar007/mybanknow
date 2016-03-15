@@ -58,5 +58,11 @@ ExpiresDefault "access plus 6 days"
 
 
 
+
+#default charset
+
+AddDefaultCharset utf-8
+
+
 </IfModule>
 ## EXPIRES CACHING ##

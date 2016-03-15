@@ -156,6 +156,132 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
         }
     )
 
+        .state('add-admin',{
+            url:"/add-admin",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                    //  controller: 'admin_left'
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/add_admin.html' ,
+                    controller: 'addadmin'
+                },
+
+            }
+        }
+    )
+
+
+.state('add-user',{
+            url:"/add-user",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                    //  controller: 'admin_left'
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/add_user.html' ,
+                    controller: 'adduser'
+                },
+
+            }
+        }
+    )
+
+
+
+        .state('edit-admin',{
+            url:"/edit-admin/:userId",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/edit_admin.html' ,
+                    controller: 'editadmin'
+                },
+
+            }
+        }
+    )
+
+
+
+        .state('admin-list',{
+            url:"/admin-list",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                    //  controller: 'admin_left'
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/admin_list.html' ,
+                    controller: 'adminlist'
+                },
+
+            }
+        }
+    )
+
+
+
+        .state('user-list',{
+            url:"/user-list",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                    //  controller: 'admin_left'
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/user_list.html' ,
+                    controller: 'userlist'
+                },
+
+            }
+        }
+    )
+
 
 
 
@@ -275,6 +401,12 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
 
 
     },2000);
+	
+	$scope.togglearea=function(){
+			$('html, body').animate({
+                scrollTop: $('div#home_body_block1').offset().top+70
+            }, 2000);
+	}
 
     $scope.customvalidator=function(){
 
@@ -341,19 +473,23 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
 mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootScope) {
     $scope.login = function(){
         $rootScope.stateIsLoading = true;
+        console.log(1);
         $http({
             method  : 'POST',
             async:   false,
-            url     : $scope.adminUrl+'finderlogin',
+            url     : $scope.adminUrl+'adminlogin',
             data    : $.param($scope.form),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            if(data.userdetails.status == 'success'){
+            //$rootScope.stateIsLoading = false;
+            if(data.status == 'success'){
                 $cookieStore.put('userid',data.userdetails.id);
                 $cookieStore.put('useremail',data.userdetails.email);
                 $cookieStore.put('userfullname',data.userdetails.fname+' '+data.userdetails.lname);
+                $cookieStore.put('userfname',data.userdetails.fname);
+                $cookieStore.put('userlname',data.userdetails.lname);
                 $cookieStore.put('username',data.userdetails.username);
+                $cookieStore.put('userrole',data.userdetails.userrole);
 
                 if(typeof (data.userdetails.roles[4]) != 'undefined')
                     $cookieStore.put('userrole',4);
@@ -367,29 +503,40 @@ mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootSco
                 console.log($cookieStore.get('useremail'));
                 console.log($cookieStore.get('userfullname'));
 
+
+
+                //console.log($rootScope.userrole);
+
                 $state.go('dashboard');
 
-/*
+                /*
 
 
-                if(typeof($cookieStore.get('idea_det_id')) != 'undefined' && $cookieStore.get('idea_det_id')>0) {
-                    $scope.idea_det_id = $cookieStore.get('idea_det_id');
-                    $cookieStore.remove('idea_det_id');
-                    $state.go('ideadetails',{ideaId: $scope.idea_det_id});
-                    return
-                }else{
-*/
+                 if(typeof($cookieStore.get('idea_det_id')) != 'undefined' && $cookieStore.get('idea_det_id')>0) {
+                 $scope.idea_det_id = $cookieStore.get('idea_det_id');
+                 $cookieStore.remove('idea_det_id');
+                 $state.go('ideadetails',{ideaId: $scope.idea_det_id});
+                 return
+                 }else{
+                 */
                 //   $state.go('dashboard');
                 //  return
                 // }
 
             }else{
                 $scope.errormsg = data.msg;
+
+                console.log('in error');
             }
 
         });
     }
 });
+
+
+
+
+
 mybanknow.controller('businessaccount', function($scope,$state,$http,$cookieStore,$rootScope) {
     $scope.businessaccountsubmit = function(){
         $('#businessmodal').modal('show');
@@ -413,7 +560,7 @@ mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$
 
     $scope.toggledropdown = function () {
 
-        angular.element('li.user-manu-dropdown').toggleClass('open');
+        //angular.element('li.user-manu-dropdown').toggleClass('open');
         console.log('we');
     }
 
@@ -430,3 +577,223 @@ mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$
     // console.log('in admin header');
 });
 
+
+
+mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $scope.currentPage=1;
+    $scope.perPage=3;
+    $scope.begin=0;
+
+    $scope.setPage = function (pageNo) {
+        $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function(){
+        console.log($scope.currentPage);
+        $scope.begin=parseInt($scope.currentPage-1)*$scope.perPage;
+        $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+    }
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.adminUrl+'adminlist',
+        // data    : $.param($scope.form),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        $rootScope.stateIsLoading = false;
+        console.log(data);
+        $scope.userlist=data;
+        $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+
+    });
+
+    $scope.searchkey = '';
+    $scope.search = function(item){
+
+        if ( (item.fname.indexOf($scope.searchkey) != -1) || (item.lname.indexOf($scope.searchkey) != -1) ||(item.mail.indexOf($scope.searchkey) != -1)||(item.mobile_no.indexOf($scope.searchkey) != -1)||(item.phone_no.indexOf($scope.searchkey) != -1) ||(item.address.indexOf($scope.searchkey) != -1)){
+            return true;
+        }
+        return false;
+    };
+    $scope.deladmin = function(item){
+        $rootScope.stateIsLoading = true;
+        var idx = $scope.userlist.indexOf(item);
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'deleteadmin',
+            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.userlist.splice(idx,1);
+            $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+        });
+    }
+
+    $scope.changeStatus = function(item){
+        $rootScope.stateIsLoading = true;
+        var idx = $scope.userlist.indexOf(item);
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminupdatestatus',
+            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.userlist[idx].status = !$scope.userlist[idx].status;
+        });
+    }
+
+
+
+
+    //console.log('in add admin form ');
+});
+
+mybanknow.controller('userlist', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $scope.currentPage=1;
+    $scope.perPage=3;
+    $scope.begin=0;
+
+    $scope.setPage = function (pageNo) {
+        $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function(){
+        console.log($scope.currentPage);
+        $scope.begin=parseInt($scope.currentPage-1)*$scope.perPage;
+        $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+    }
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.adminUrl+'finderlist',
+        // data    : $.param($scope.form),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        $rootScope.stateIsLoading = false;
+        console.log(data);
+        $scope.userlist=data;
+        $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+
+    });
+
+    $scope.searchkey = '';
+    $scope.search = function(item){
+
+        if ( (item.fname.indexOf($scope.searchkey) != -1) || (item.lname.indexOf($scope.searchkey) != -1) ||(item.mail.indexOf($scope.searchkey) != -1)||(item.mobile_no.indexOf($scope.searchkey) != -1)||(item.phone_no.indexOf($scope.searchkey) != -1) ||(item.address.indexOf($scope.searchkey) != -1)){
+            return true;
+        }
+        return false;
+    };
+    $scope.deladmin = function(item){
+        $rootScope.stateIsLoading = true;
+        var idx = $scope.userlist.indexOf(item);
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'deleteadmin',
+            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.userlist.splice(idx,1);
+            $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+        });
+    }
+
+    $scope.changeStatus = function(item){
+        $rootScope.stateIsLoading = true;
+        var idx = $scope.userlist.indexOf(item);
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminupdatestatus',
+            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $scope.userlist[idx].status = !$scope.userlist[idx].status;
+        });
+    }
+
+
+
+
+    //console.log('in add admin form ');
+});
+
+
+mybanknow.controller('addadmin', function($scope,$state,$http,$cookieStore,$rootScope) {
+    // $state.go('login');
+    $scope.contact=['Anytime','Early morning','Mid morning','Afternoon','Early evening','Late evening'];
+    $scope.submitadminForm = function(){
+
+        console.log($scope.adminUrl+'addadmin');
+
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addadmin',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            if(data.status == 'error'){
+                console.log(data);
+                $('.email_div').append('<label class="control-label has-error validationMessage">This email already exists.</label>');
+            }else{
+                $state.go('admin-list');
+                return;
+            }
+
+
+
+        });
+
+
+    }
+
+    //console.log('in add admin form ');
+});
+
+mybanknow.controller('adduser', function($scope,$state,$http,$cookieStore,$rootScope) {
+    // $state.go('login');
+    $scope.contact=['Anytime','Early morning','Mid morning','Afternoon','Early evening','Late evening'];
+    $scope.submitadminForm = function(){
+
+        console.log($scope.adminUrl+'addadmin');
+
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addfinder',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            if(data.status == 'error'){
+                console.log(data);
+                $('.email_div').append('<label class="control-label has-error validationMessage">This email already exists.</label>');
+            }else{
+                $state.go('admin-list');
+                return;
+            }
+
+
+
+        });
+
+
+    }
+
+    //console.log('in add admin form ');
+});

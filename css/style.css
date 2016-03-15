@@ -417,7 +417,7 @@ p{padding: 0px; margin: 0px;}
 
 .popup .modal-header h1{font-family:'SourceSansPro-Bold'; font-size: 31px; color: #313a44; text-transform: uppercase; letter-spacing: 6px; line-height:40px; text-align: center;}
 
-.popup .modal-header p{font-family:'SourceSansPro-Regular'; font-size: 18px; color: #535353; text-align: center; line-height: 25px;}
+.popup .modal-header p{font-family:'SourceSansPro-Regular'; font-size: 19px; color: #535353; text-align: center; line-height: 25px;}
 
 .popup .modal-body{background: #0063ba; padding-top: 0px; position: relative;}
 
@@ -449,6 +449,8 @@ p{padding: 0px; margin: 0px;}
 
 .home_body_block5 h1{margin: 15px 0; font-family:'SourceSansPro-Semibold'; font-size: 80px; color: #fff; text-transform: uppercase; letter-spacing: 12px;}
 
+.home_body_block5 .home_body_block5_section{padding:86px 0;}
+
 .home_body_block5 .home_body_block5_section_block{background: #18a6db; border-radius: 4px; width: 776px; padding: 12px; margin-bottom: 25px;}
 
 .home_body_block5 .home_body_block5_section_block .home_body_block5_contant_block{width: 100%; margin-bottom: 15px;}
@@ -463,24 +465,28 @@ p{padding: 0px; margin: 0px;}
 
 .home_body_block5 .home_body_block5_section_block p{ font-family: 'SourceSansPro-Semibold'; font-size: 22px; color: #fff; line-height: 30px; padding-left: 10px;}
 
-.home_body_block5 h2{ font-family: 'SourceSansPro-Semibold'; font-size: 30px; color: #fff; line-height: 30px; text-align: center; margin: 20px auto;}
 
-.home_body_block5 h2 span{color: #18a6db;}
 
 
 
 .home_body_block6{background: #636e74; padding-top: 30px; padding-bottom: 30px;}
 
+.home_body_block6 h2{ font-family: 'SourceSansPro-Semibold'; font-size: 30px; color: #fff; line-height: 30px; text-align: center; margin: 0px auto; margin-bottom:25px;}
+
+.home_body_block6 h2 span{color: #18a6db;}
+
 .home_body_block6 .home_form_section{width: 660px; margin: 0 auto; text-align: center;}
 
-.home_body_block6 .home_form_section input{display: block; width: 100%; border: 1px solid #536771!important; border-radius: 0px; margin: 20px 0px; box-shadow: 0 0px 22px rgba(0,0,0,.3) inset; height: 53px; padding-left: 20px; font-family:'SourceSansPro-Regular'; font-size: 19px; color: #636e74; font-style: italic;}
+.home_body_block6 .home_form_section form .form-group{margin:0px;}
+
+.home_body_block6 .home_form_section input{display: block; width: 100%; border: 1px solid #536771!important; border-radius: 0px; margin: 10px 0px; box-shadow: 0 0px 22px rgba(0,0,0,.3) inset; height: 53px; padding-left: 20px; font-family:'SourceSansPro-Regular'; font-size: 19px; color: #636e74; font-style: italic;}
 
 
-.home_body_block6 .home_form_section select{display: block; width: 100%; border: 1px solid #536771!important; border-radius: 0px; margin: 20px 0px; box-shadow: 0 0px 22px rgba(0,0,0,.3) inset; height: 53px; padding-left: 20px; font-family:'SourceSansPro-Regular'; font-size: 19px; color: #636e74; font-style: italic;}
+.home_body_block6 .home_form_section select{display: block; width: 100%; border: 1px solid #536771!important; border-radius: 0px; margin: 10px 0px; box-shadow: 0 0px 22px rgba(0,0,0,.3) inset; height: 53px; padding-left: 20px; font-family:'SourceSansPro-Regular'; font-size: 19px; color: #636e74; font-style: italic;}
 
 .home_body_block6 .home_form_section .err_msg{display: block; text-align: left; color: #f1141e; font-size: 15px;}
 
-.home_body_block6 .home_form_section .home_form_submit{width: 218px; height: 54px; margin: 20px auto; display: block; background: #18a6db; font-family: 'SourceSansPro-Semibold'; font-size: 24px; color: #fff; text-align: center; text-transform: uppercase; border: none;}
+.home_body_block6 .home_form_section .home_form_submit{width: 218px; height: 54px; margin: 10px auto; display: block; background: #18a6db; font-family: 'SourceSansPro-Semibold'; font-size: 24px; color: #fff; text-align: center; text-transform: uppercase; border: none;}
 
 .home_body_block6 .home_form_section .home_form_People{border-radius: 100%; width: 112px; height: 112px; margin: 10px auto; border: 5px solid #c9c9c9; }
 
@@ -706,3 +712,14 @@ p{padding: 0px; margin: 0px;}
 
 
 /*---------------------end-business-account-------------------*/
+
+
+/*---------------admin------------------*/
+
+.main-header .logo .logo-mini img{width:64%!important;}
+.skin-blue .main-header .navbar .sidebar-toggle{background:#004770;}
+.skin-blue .main-header .navbar .sidebar-toggle:before{content: "\f0c9";}
+.info-box{cursor:pointer;}
+
+.login-box-body form .form-group{margin-right:0px!important; margin-left:0px!important;}
+.login-box-body form .loginbtn{margin-bottom:15px;}
