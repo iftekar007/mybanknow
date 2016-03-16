@@ -2,16 +2,16 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-           Admin Manager
+              User Manager
 
           </h1>
           <ol class="breadcrumb">
                <li><a ui-sref="dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-           <li><a href="javascript:void(0)" class="active">Manage Admin </a></li>
+           <li><a href="javascript:void(0)" class="active">Manage User </a></li>
             
           </ol>
             <div class="newblock1">
- <a ui-sref="add-admin" class="addfrinderbtn">Add Admin</a>
+ <a ui-sref="add-admin" class="addfrinderbtn">Add User</a>
             <input type="text" name="search" ng-model="searchkey" class="search1" placeholder="Search Admin">
                
                 <div class="clear"></div>
@@ -28,7 +28,7 @@
               <!-- general form elements -->
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Admin List</h3>
+                  <h3 class="box-title">User List</h3>
                 </div><!-- /.box-header -->
 
 
@@ -48,7 +48,7 @@
                     </thead>
                     <tbody>
 
-                      <tr ng-repeat=" item in userlist | filter:search">
+                      <tr ng-repeat=" item in userlist | filter:searchkey">
 
                         <td>{{item.fname}}</td>
                         <td>{{item.lname}}</td>
@@ -61,7 +61,7 @@
                         <td> {{item.role}}</td>
 
                         <td><a href="javascript:void(0)" ng-click="changeStatus(item)"> {{(item.status==1) ? 'Active' : 'Blocked'}}</a> </td>
-                        <td> <a ui-sref="edit-admin({userId:item.uid})" >Edit</a>&nbsp;&nbsp;<a href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a></td>
+                        <td> <a ui-sref="edit-user({userId:item.uid})" >Edit</a>&nbsp;&nbsp;<a href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a></td>
                       </tr>
 
                     </tbody>

@@ -269,13 +269,13 @@ function adminupdates(){
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
-     $roles = array(
+     /*$roles = array(
         DRUPAL_AUTHENTICATED_RID => 'authenticated user',
         // 5 => 'General Users',
     );
      $user_fields = user_load(@intval($_POST['uid']));
     $user_fields->roles=$roles;
-    user_save($user_fields);
+    user_save($user_fields);*/
 
     db_update('admin')
         //->expression('weight', 'weight + :weight', array(':weight' => 1))

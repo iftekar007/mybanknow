@@ -108,6 +108,8 @@ function finderdetails(){
 
     $queryu = db_select('users', 'u');
     $queryu->join('finder', 'f', 'f.user_id = u.uid');
+    $queryu->leftjoin('users_roles', 'ur', 'ur.uid = u.uid');
+    $queryu->fields('ur', array('rid'));
      $queryu->fields('u', array('uid','created','status','login','mail'));
     $queryu->fields('f',array('fname','lname','phone_no','mobile_no','address','contact_time','refferal_code','bname'))
         ->condition('u.uid', $_POST['uid'], '=');
@@ -137,6 +139,9 @@ function finderdetails(){
         $userlist['refferal_code'] = $recordu['refferal_code'];
         $userlist['bname'] = $recordu['bname'];
         $userlist['picture'] = $picture;
+        $userlist['roleid'] = $recordu['rid'];
+        if($recordu['rid']==5)$userlist['role'] ='Client';
+        if($recordu['rid']==6)$userlist['role'] ='Agent';
     }
     echo json_encode(@$userlist);
 
@@ -303,12 +308,13 @@ function updatestatus(){
 
     //print_r($_POST);
     $user_fields = user_load(@intval($_POST['uid']));
+    echo $user_fields->status;
     //$user_fields = user_load(62);
     $user_fields->status=1-intval($user_fields->status);
     user_save($user_fields);
 
-    if($user_fields->status==1) drupal_mail('user', 'register_status_activated', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
-    else drupal_mail('user', 'register_status_blocked', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
+   // if($user_fields->status==1) drupal_mail('user', 'register_status_activated', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
+    //else drupal_mail('user', 'register_status_blocked', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
     //drupal_mail('user', 'register_status_blocked', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
     //drupal_mail('user', 'register_no_approval_required', $_POST['email'], NULL, array('account' => $user_fields), variable_get('site_mail', 'support@voortal.com'));
     echo "true";

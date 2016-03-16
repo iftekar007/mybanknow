@@ -1,0 +1,163 @@
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            File Manager
+
+          </h1>
+          <ol class="breadcrumb">
+            <li><a ui-sref="dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a ui-sref="user-list">Manage File </a></li>
+            <li class="active">Add File</li>
+          </ol>
+        </section>
+
+
+
+    
+        <section class="content">
+          <div class="row">
+           
+        
+            <!-- left column -->
+            <div class="col-md-12">
+            
+              <!-- general form elements -->
+              <div class="box box-primary" style="overflow:hidden; padding-bottom:40px;">
+            
+                <div class="box-header with-border">
+                  <h3 class="box-title"></h3>
+                  <h3 class="box-title">Add File</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                
+                  <div class="formsection">
+                <form angular-validator-submit="submitadminForm()" id="add_Admin" name="add_Admin" role="form" novalidate angular-validator>
+                  <div class="box-body">
+
+
+                    <div class="form-group">
+                    <label >File Name* :</label>
+                    <input type="text" class="form-control" placeholder="First Name" name="fname"
+
+                           ng-model="form.fname"
+                           required-message="'first name can not be blank.'"
+                           required>
+
+                    <!-- <span class="errormsg">erroe msg</span>-->
+                    </div>
+
+
+                      <div class="form-group">
+                          <label >Upload File * :</label>
+                          <textarea
+                                  ng-model="form.desc"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="File Description"
+                                  style="resize:none;"></textarea>
+
+
+
+                          <!-- <span class="errormsg">erroe msg</span>-->
+                      </div>
+
+                      <div class="form-group">
+                          <label >File Name* :</label>
+                          <input type="button" name="resume"  value="Upload Resume" class="uploadbtn"  ngf-drop ngf-select ng-model="event_imgupload" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+
+                          <span class="clearfix resumefilename  resumefilename2" >{{form.event_image}}</span>
+
+
+
+                          <!-- <span class="errormsg">erroe msg</span>-->
+                      </div>
+
+
+
+
+
+
+                      <div class="form-group" >
+                          <label>Permissions</label>
+                          <select class="form-control"
+                                  name="role"
+                                  ng-model="form.role"
+                                  required-message="'Role can not be blank. '"
+                                  required >
+                              <option value="">Select A Role</option>
+                              <option value="5">Client</option>
+                              <option value="6">Agent</option>
+
+                          </select>
+
+                      </div>
+
+
+
+
+
+                   <!-- <div class="form-group">
+                    
+                      
+                       <label>Text Disabled</label>
+                        <input type="text" class="form-control" placeholder="Enter ...">
+
+                    </div>
+                    
+                    
+                    
+                       <div class="form-group">
+                    
+                    <label>Textarea Disabled</label>
+                      <textarea class="form-control" rows="3" placeholder="Enter ..."  style="resize:none;"></textarea>
+
+                      
+                      </div>
+                      
+                      <div class="form-group">
+                      <label>Select</label>
+                      <select class="form-control">
+                        <option>option 1</option>
+                        <option>option 2</option>
+                        <option>option 3</option>
+                        <option>option 4</option>
+                        <option>option 5</option>
+                      </select>
+
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="exampleInputFile" style="font-size:13px;">File input</label>
+                      <input type="file" id="exampleInputFile" style="font-size:13px;">
+
+                    </div>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox"> <span style="font-size:13px;">Check me out</span>
+                      </label>
+                      
+                      <label>
+                        <input type="radio"> <span style="font-size:13px;">Check me out</span>
+                      </label>
+                      
+                    </div>
+                  -->
+                  </div><!-- /.box-body -->
+
+                  <div class="box-footer" style="background:none; height:auto; padding-bottom:0px; padding-top:0px;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div><!-- /.box -->
+
+
+ <div style="clear:both;"></div>
+            </div>
+           
+          </div>   <!-- /.row -->
+            </div>
+        </section>
+        
+      
+      </div>
