@@ -93,6 +93,23 @@ function finder_menu()
         //'type'=>MENU_NORMAL_ITEM,
     );
 
+ $items['myprofile'] = array(
+        'title' => 'Login',
+        'page callback' => 'myprofile',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+ $items['changepassword'] = array(
+        'title' => 'Login',
+        'page callback' => 'changepassword',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
 
     return $items;
 }
@@ -142,6 +159,100 @@ function finderdetails(){
         $userlist['roleid'] = $recordu['rid'];
         if($recordu['rid']==5)$userlist['role'] ='Client';
         if($recordu['rid']==6)$userlist['role'] ='Agent';
+    }
+    echo json_encode(@$userlist);
+
+}
+
+
+function changepassword(){
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    //print_r($_POST);
+    $user_fields = user_load(@intval($_POST['uid']));
+    //print_r($user_fields);
+    $x= user_authenticate($user_fields->name,@$_POST['oldpasword']);
+    //print_r($_POST);
+    if($x>0 && $user_fields->status==1) {
+        require_once 'includes/password.inc';
+        $user_fields->pass=user_hash_password(@$_POST['newpassword']);
+        user_save($user_fields);
+        $data['status'] = 'success';
+        //$data['userdetails'] = $userarr;
+        echo json_encode($data);
+        return;
+    }else{
+        ///if($x>0 && $user_fields->status==0){
+        $data['status'] = 'error';
+        $data['msg'] = 'Incorrect Password !!';
+
+        echo json_encode($data);
+        return;
+
+        // }
+    }
+
+    //print_r($x);
+
+    //echo "true";
+
+
+
+}
+function myprofile(){
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    $queryu = db_select('users', 'u');
+    if($_REQUEST['role']!=4)$queryu->join('finder', 'f', 'f.user_id = u.uid');
+    if($_REQUEST['role']==4)$queryu->join('admin', 'a', 'a.user_id = u.uid');
+    $queryu->leftjoin('users_roles', 'ur', 'ur.uid = u.uid');
+    $queryu->fields('ur', array('rid'));
+     $queryu->fields('u', array('uid','created','status','login','mail'));
+    if($_REQUEST['role']!=4) $queryu->fields('f',array('fname','lname','phone_no','mobile_no','address','contact_time','refferal_code','bname'));
+    if($_REQUEST['role']==4) $queryu->fields('a',array('fname','lname','email','phone_no','mobile_no','address'));
+    $queryu->condition('u.uid', $_POST['uid'], '=');
+
+    //->range(0, 20);
+    $resultu = $queryu->execute();
+
+
+
+    while($recordu = $resultu->fetchAssoc()) {
+        $thisuser = user_load($recordu['uid']);
+         $picture=$thisuser->picture;
+         if(isset($picture->uri))$picture= image_style_url('thumbnail', $picture->uri);
+         else $picture='';
+
+        //print_r($recordu);
+
+        $userlist['uid'] = $recordu['uid'];
+        $userlist['created'] = $recordu['created'];
+        $userlist['status'] = $recordu['status'];
+        $userlist['login'] = $recordu['login'];
+        $userlist['email'] = $recordu['mail'];
+        $userlist['fname'] = $recordu['fname'];
+        $userlist['lname'] = $recordu['lname'];
+        $userlist['phone_no'] = $recordu['phone_no'];
+        $userlist['mobile_no'] = $recordu['mobile_no'];
+        $userlist['address'] = $recordu['address'];
+        $userlist['contact_time'] = $recordu['contact_time'];
+        $userlist['refferal_code'] = $recordu['refferal_code'];
+        $userlist['bname'] = $recordu['bname'];
+        $userlist['picture'] = $picture;
+        $userlist['roleid'] = $recordu['rid'];
+        if($recordu['rid']==5)$userlist['role'] ='Client';
+        if($recordu['rid']==6)$userlist['role'] ='Agent';
+        if($recordu['rid']==4)$userlist['role'] ='Admin';
     }
     echo json_encode(@$userlist);
 

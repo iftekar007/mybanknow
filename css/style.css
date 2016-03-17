@@ -449,9 +449,9 @@ p{padding: 0px; margin: 0px;}
 
 .home_body_block5 h1{margin: 15px 0; font-family:'SourceSansPro-Semibold'; font-size: 80px; color: #fff; text-transform: uppercase; letter-spacing: 12px;}
 
-.home_body_block5 .home_body_block5_section{padding:86px 0;}
+.home_body_block5 .home_body_block5_section{padding:40px 0 60px 0;}
 
-.home_body_block5 .home_body_block5_section_block{background: #18a6db; border-radius: 4px; width: 776px; padding: 12px; margin-bottom: 25px;}
+.home_body_block5 .home_body_block5_section_block{background: #18a6db; border-radius: 4px; width: 776px; padding: 12px; margin-bottom: 25px; margin-top:88px;}
 
 .home_body_block5 .home_body_block5_section_block .home_body_block5_contant_block{width: 100%; margin-bottom: 15px;}
 
@@ -579,17 +579,17 @@ p{padding: 0px; margin: 0px;}
 
 /*---------------------new-account-------------------*/
 
-.newacc_body_area{background: #888583; width: 474px; margin: 0 auto; margin-bottom: 184px;}
+.newacc_body_area{background: #7d7d7e; width: 473px; margin: 0 auto; margin-bottom: 184px;}
 
 .newacc_body_area h1{margin: 45px 0 0 0; font-family: Arial; font-size: 36px; text-transform: capitalize;}
 
-.newacc_body_area_left{float: left; background: url("../images/newaccount_bodybox_divider.png") no-repeat center right; padding: 46px 0; width: 55%; height: 298px;}
+.newacc_body_area_left{float: left; background: url("../images/newaccount_bodybox_divider.png") no-repeat center right; padding: 46px 0; width: 54%; height: 298px;}
 
-.newacc_body_area_left h1{color: #f7f7f7;}
+.newacc_body_area_left h1{color: #f7f7f7; font-size:26px; letter-spacing:2px; margin-top:20px; padding-right:32px;}
 
-.newacc_body_area_right{float: left; padding: 41px 0; width: 45%;}
+.newacc_body_area_right{float: left; padding: 46px 0; width: 46%; background:#e0e0e0;}
 
-.newacc_body_area_right h1{color: #0960ab;}
+.newacc_body_area_right h1{color: #0960ab; font-size:26px; letter-spacing:2px; margin-top:20px;}
 
 .business_con:hover .newaccount_icon1_hover{display: block; margin: 0 auto;}
 
@@ -723,3 +723,66 @@ p{padding: 0px; margin: 0px;}
 
 .login-box-body form .form-group{margin-right:0px!important; margin-left:0px!important;}
 .login-box-body form .loginbtn{margin-bottom:15px;}
+
+#mydiv {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	/* background: url('images/ajax-loader.gif') 50% 50% no-repeat rgba(0,0,0,0.3);*/
+
+	   
+
+	   background:rgba(0, 0, 0, 0.1)  url(../images/ajax-loader.gif) 50% 50% no-repeat ;
+}
+
+
+.navbar-custom-menu > .navbar-nav > li.messages-menu{display:none;}
+.navbar-custom-menu > .navbar-nav > li.notifications-menu{display:none;}
+.navbar-custom-menu > .navbar-nav > li.tasks-menu{display:none;}
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header > p > small{display:none!important;}
+.navbar-nav > .user-menu > .dropdown-menu > .user-body{display:none;}
+.navbar-nav > .user-menu > .dropdown-menu > .user-footer .pull-left .btn-default{display:none;}
+.navbar-nav > .user-menu > .dropdown-menu > .user-footer .pull-right .btn-default{background:#adadad;}
+
+
+/*-----------login---------*/
+
+.login-box{background:#fff; padding:10px; width:500px!important;}
+.login-logo img{margin-top:0px!important; width:auto!important; margin-bottom:15px!important;}
+
+.login-box-body, .register-box-body{background:rgba(132, 128, 126, 0.8)!important;}
+.login-box-body label{font-family:'SourceSansPro-Semibold'; font-size: 48px; color: #131313; text-transform: uppercase; margin: 0px 0 8px 0; text-align: left; padding-left: 36px; background: url("../images/peracc_body-signup_labelbg.png") no-repeat center left; width: 100%; margin-left:-20px;}
+.login-box-body input{background: #fff; width: 75%; margin: 0px auto; height: 52px; border: 1px solid #b3b5b7!important; border-radius: 0px; font-family:'SourceSansPro-Regular'; font-size: 18px; color: #181818; padding-left:12px; float:none; text-align:center;}
+
+.login-box-body input::-webkit-input-placeholder {color: #181818 !important; opacity: 1;}
+
+.login-box-body input:-moz-placeholder {color: #181818 !important; opacity: 1;}/* Firefox 18- */
+
+.login-box-body input::-moz-placeholder {color: #181818 !important; opacity: 1;}/* Firefox 19+ */
+
+.login-box-body input:-ms-input-placeholder {color: #181818 !important; opacity: 1;}
+
+.login-box-body .errormsg{margin:5px auto; text-align:center; display:block; width:75%;}
+
+.login-box-body .loginbtn{background: #095fa9; height: 52px; border: 1px solid #fff!important; border-radius: 0px; width: 75%; margin: 32px auto; margin-bottom:16px; display: block; font-family:'SourceSansPro-Semibold'; font-size: 24px; color: #fff; text-transform: uppercase;}
+.forgot_pass a{display: block; font-family:'SourceSansPro-Semibold'; font-size: 18px; line-height:16px; color: #fff; text-align:center;}
+.forgot_pass a:hover{color:#fff;}
+
+.form-horizontal .has-feedback .form-control-feedback{right:56px!important; top:11px!important;}
+.login-box-msg{color:#fff!important;}
+
+.info-box-content .info-box-number{font-family:'SourceSansPro-Semibold'!important;}
+.content-header > h1{font-family:'SourceSansPro-Semibold'!important;}
+.content-header > .breadcrumb > li > a{font-family:"SourceSansPro-Regular"!important;}
+.content-header > .breadcrumb > li{font-family:"SourceSansPro-Regular"!important;}
+
+.navbar-static-top .hidden-xs{font-family:"SourceSansPro-Regular"!important;}
+
+.box-header .box-title{font-family:"SourceSansPro-Regular";}
+.formsection .box-body{font-family:"SourceSansPro-Regular";}
+.box-footer .btn-primary{font-family:"SourceSansPro-Regular"!important;}
+.content .box{font-family:"SourceSansPro-Regular"!important;}

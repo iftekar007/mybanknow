@@ -11,6 +11,9 @@
     .home_body_block4 .home_body_block4_left h1{font-size: 80px;}
 
     .home_body_block5 h1{font-size: 80px;}
+	
+	.home_body_block5 .home_body_block5_section{padding:50px 0;}
+	.home_body_block5 .home_body_block5_section_block{margin-top:55px;}
 
 }
 
@@ -53,6 +56,8 @@
 
     .home_body_block5 h1{font-size: 50px;}
 
+.home_body_block5 .home_body_block5_section{padding:40px 0 60px 0;}
+.home_body_block5 .home_body_block5_section_block{margin-top:88px;}
 
 
 
@@ -125,7 +130,7 @@
 
     .home_body_block1 .home_body_block1_section h1{font-size: 24px; letter-spacing: 6px;}
 
-    .home_body_block3 h1{font-size: 24px!important; letter-spacing: 6px; margin-top: 20px!important;   top: 25px;}
+    .home_body_block3 h1{font-size: 24px!important; letter-spacing: 6px; margin-top: 0px!important;   top: 25px;}
 
     .home_body_block4 .home_body_block4_left h1{font-size: 24px; letter-spacing: 6px;}
 
@@ -241,11 +246,11 @@
 
     .home_body_block5{background: #4a4741; text-align: center;}
 
-    .home_body_block5 h1{font-size: 80px;}
+    .home_body_block5 h1{font-size: 80px; margin:0px;}
 
-    .home_body_block5 .home_body_block5_section{width: 100%; float: none;}
+    .home_body_block5 .home_body_block5_section{width: 100%; float: none; padding:20px 0;}
 
-    .home_body_block5 .home_body_block5_section_block{width: 100%;}
+    .home_body_block5 .home_body_block5_section_block{width: 100%; margin-top:25px;}
 
     .home_body_block5 .home_body_block5_section_block .home_body_block5_contant_block .home_body_block5_contant_block_left{text-align: left; width: 77%;}
 
@@ -475,6 +480,9 @@
     .home_body_block4 .home_body_block4_left .vocation_btn{width: 100%; padding: 10px;}
 
     .home_body_block4 .home_body_block4_left .vocation_btn .vocation_btn_text{background: url("../images/mouse_icon.png") no-repeat top center; padding: 34px 0 0 0; width: 100%; display: block;}
+	
+	
+.login-box{ width:90%!important;}
 
 }
 
@@ -517,7 +525,7 @@
 
     .newacc_body_area{width: 90%;}
 
-    .newacc_body_area_left{background: url("../images/newaccount_bodybox_divider2.png") no-repeat center bottom; background-size: 100%; width: 100%; float: none;}
+    .newacc_body_area_left{background: url("../images/newaccount_bodybox_divider2.png") no-repeat center bottom; background-size: 100%; width: 100%; float: none; padding-bottom:82px; height:auto;}
 
     .newacc_body_area_right{width: 100%; float: none;}
 
@@ -532,7 +540,10 @@
     .business_body_signup_submit{width: 100%;}
 	
 	
-
+	/*-------choose-account------*/
+	
+	.newacc_body_area_left h1{padding-right:0px;}
+	
 }
 
 
@@ -542,6 +553,12 @@
 
 
     .modal-footer img{width: 100%;}
+	
+	.login-box{width:100%;}
+	.login-logo img{max-width:100%;}
+	.login-box-body input{width:90%;}
+	.login-box-body .errormsg{width:90%;}
+	.login-box-body .loginbtn{width:90%;}
 
 }
 
@@ -560,5 +577,15 @@
 	.peracc_body_signup{width:90%;}
 	.peracc_body_signup .peracc_body_signup_block form label{width:100%; padding:0px; text-align:center; float:none;}
 	.peracc_body_signup .peracc_body_signup_input{width:90%; margin:3px auto; text-align:center; float:none;}
+
+}
+
+/*------------------------admin----------------------------*/
+
+@media screen and (max-width:767px) {
+.main-header .logo{height:auto;}
+.main-header .logo .logo-lg{width:200px; margin:0 auto;}
+.main-header .logo .logo-lg img{width:100%;}
+.content-wrapper .content-header{position:inherit; margin-top:30px;}
 
 }

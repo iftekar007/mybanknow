@@ -347,14 +347,15 @@ function adminlogin(){
     if($user_check>0 && $user->status==1){
 
         //print_r($user->roles);
+        //print_r($user);
 
         $queryu = db_select('users', 'u');
         if($user->roles[4]=='siteadmin')$queryu->join('admin', 'a', 'a.user_id = u.uid');
-        if($user->roles[6]=='pilot')$queryu->join('pilot', 'p', 'p.user_id = u.uid');
+        if($user->roles[5]=='agent'||$user->roles[6]=='client')$queryu->join('finder', 'p', 'p.user_id = u.uid');
         $queryu->fields('u', array('uid','created','status','login','mail'));
         if($user->roles[4]=='siteadmin')$queryu->fields('a',array('fname','lname','phone_no','mobile_no','address','create_time'));
-        if($user->roles[6]=='pilot')$queryu->fields('p',array('fname','lname'))
-            ->condition('u.uid', $user->uid, '=');
+        if($user->roles[5]=='agent'||$user->roles[6]=='client') $queryu->fields('p',array('fname','lname'));
+        $queryu->condition('u.uid', $user->uid, '=');
 
         //->range(0, 20);
         $resultu = $queryu->execute();
@@ -376,8 +377,8 @@ function adminlogin(){
                         $userlist['status'] = $recordu['status'];
                         $userlist['login'] = $recordu['login'];
              */         $userlist['email'] = $recordu['mail'];
-            $userlist['fname'] = $recordu['fname'];
-            $userlist['lname'] = $recordu['lname'];
+             $userlist['fname'] = $recordu['fname'];
+             $userlist['lname'] = $recordu['lname'];
             /*            $userlist['phone_no'] = $recordu['phone_no'];
                         $userlist['mobile_no'] = $recordu['mobile_no'];
                         $userlist['address'] = $recordu['address'];

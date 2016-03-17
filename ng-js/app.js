@@ -20,6 +20,15 @@ mybanknow.run(['$rootScope', '$state',function($rootScope, $state){
         $rootScope.stateIsLoading = false;
     });
 
+
+
+    $rootScope.$on('$viewContentLoaded', function(){
+
+
+
+        angular.element('.sidebar-mini').toggleClass('sidebar-collapse');
+    });
+
 }]);
 
 mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
@@ -86,6 +95,26 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                 },
                 'content': {
                     templateUrl: 'partials/new-account.html' ,
+                    //controller: 'home'
+                },
+
+            }
+        })
+		
+		.state('choose-login',{
+            url:"/choose-login",
+            views: {
+
+                'header': {
+                    templateUrl: 'partials/header.html' ,
+                    //controller: 'header'
+                },
+                'footer': {
+                    templateUrl: 'partials/footer.html' ,
+                    //controller: 'footer'
+                },
+                'content': {
+                    templateUrl: 'partials/choose-login.html' ,
                     //controller: 'home'
                 },
 
@@ -174,6 +203,29 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                 'content': {
                     templateUrl: 'partials/add_admin.html' ,
                     controller: 'addadmin'
+                },
+
+            }
+        }
+    )
+        .state('myprofile',{
+            url:"/myprofile",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                    //  controller: 'admin_left'
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/myprofile.html' ,
+                    controller: 'myprofile'
                 },
 
             }
@@ -599,8 +651,10 @@ mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootSco
 
             }else{
                 $scope.errormsg = data.msg;
+                $rootScope.stateIsLoading=false;
 
                 console.log('in error');
+                console.log('in error'+$rootScope.stateIsLoading );
             }
 
         });
@@ -630,6 +684,80 @@ mybanknow.controller('personalsignup', function($scope,$state,$http,$cookieStore
 mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$rootScope,$log) {
     // $state.go('login');
     // if($cookieStote.get('userid'))
+
+
+    //
+
+
+
+    $rootScope.logout = function () {
+        $cookieStore.remove('userid');
+        $cookieStore.remove('username');
+        $cookieStore.remove('userrole');
+        $cookieStore.remove('useremail');
+        $cookieStore.remove('userfullname');
+
+        $rootScope.userrole=0;
+        $rootScope.userfullname=0;
+        $rootScope.userid=0;
+        $rootScope.userrole=0;
+
+        console.log('in logout');
+        $state.go('index');
+    }
+
+
+
+    if (typeof($cookieStore.get('userid')) != 'undefined' && $cookieStore.get('userid') > 0) {
+
+        $rootScope.userfullname=$cookieStore.get('userfullname');
+        $rootScope.userid=$cookieStore.get('userid');
+        $rootScope.userrole=$cookieStore.get('userrole');
+        console.log($rootScope.userfullname);
+    }
+    else{
+        $rootScope.userid=0;
+        $state.go('login');
+    }
+
+
+
+$rootScope.togglesidebar=function(){
+
+    angular.element('.sidebar-mini').toggleClass('sidebar-collapse');
+
+}
+
+    if(typeof($rootScope.i)=='undefined')$rootScope.i=0;
+    if($rootScope.i==0){
+
+        console.log($rootScope.i+'ri');
+        angular.element('.sidebar-mini').toggleClass('sidebar-collapse');
+        $rootScope.i++;
+    }
+
+    $rootScope.$on('$viewContentLoaded', function(){
+
+        $('li.treeview').find('a').unbind().click(function(e){
+            console.log('45555555');
+
+
+            $(this).next('.treeview-menu').slideToggle( "slow" );
+            //e.preventDefault();
+
+        });
+
+        //Here your view content is fully loaded !!
+        console.log('On load ..');
+        //angular.element('.sidebar-mini').toggleClass('sidebar-collapse');
+    });
+
+    /* if(angular.element('head').find('script[src="dist/js/app.min.js"]').length==0)
+        angular.element('head').append('<script src="dist/js/app.min.js"></script>');*/
+
+
+
+
     if(angular.element('head').find('link[href="css/admin_style.css"]').length==0)angular.element('head').append('<link id="home" href="css/admin_style.css" rel="stylesheet">');
 
     $scope.toggledropdown = function () {
@@ -1107,6 +1235,66 @@ mybanknow.controller('editadmin', function($scope,$state,$http,$cookieStore,$roo
 
 })
 
+mybanknow.controller('myprofile', function($scope,$state,$http,$cookieStore,$rootScope,$stateParams){
+
+    $scope.errorshow=false;
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     :     $scope.adminUrl+'myprofile?role='+$rootScope.userrole,
+        data    : $.param({'uid':$scope.userid}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        console.log(data);
+        $scope.userinfo = data;
+    });
+
+    $scope.changepassword=function(){
+
+        console.log('change password modal');
+
+        $('#changepassword').modal('show');
+
+
+
+    }
+
+    $scope.closemodal=function(){
+
+        $scope.add_finder.reset();
+
+        $('#changepassword').modal('hide');
+    }
+
+    $scope.updatepass = function () {
+
+        $scope.errorshow=false;
+        $scope.form.uid=$rootScope.userid;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'changepassword',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data.status=='success') {
+                $rootScope.stateIsLoading = false;
+                $('#changepassword').modal('hide');
+
+                return;
+            }
+            if(data.status=='error'){
+                console.log('in error');
+                $scope.errorshow=true;
+                $rootScope.stateIsLoading = false;
+            }
+        });
+    }
+
+})
 mybanknow.controller('edituser', function($scope,$state,$http,$cookieStore,$rootScope,$stateParams){
 
     $scope.userid=$stateParams.userId;
