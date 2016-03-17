@@ -2,13 +2,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Admin Manager
+            Profile Manager
 
           </h1>
           <ol class="breadcrumb">
-            <li><a ui-sref="dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li><a ui-sref="admin-list">Manage Admin </a></li>
-            <li class="active">Add Admin</li>
+         <li><a ui-sref="dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+          <!--<li class="active"><a ui-sref="admin-list">Manage Admin </a></li>-->
+            <li><a href="javascript:void(0)" class="active"> Edit Profile </a></li>
           </ol>
         </section>
 
@@ -27,12 +27,12 @@
             
                 <div class="box-header with-border">
                   <h3 class="box-title"></h3>
-                  <h3 class="box-title">Add Admin</h3>
+                  <h3 class="box-title">Edit Profile</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 
                   <div class="formsection">
-                <form angular-validator-submit="submitadminForm()" id="add_Admin" name="add_Admin" role="form" novalidate angular-validator>
+                <form angular-validator-submit="update()" id="add_Admin" name="add_Admin" role="form" novalidate angular-validator>
                   <div class="box-body">
 
 
@@ -72,7 +72,7 @@
 
                     <div class="form-group email_div">
                       <label >Email address* :</label>
-                      <input type="email" class="form-control" placeholder="Enter email" name="email"
+                      <input type="email" class="form-control" placeholder="Enter email" name="email" ng-readonly="true"
 
                          ng-model="form.email"
                           required-message="'Email can not be blank.'"
@@ -82,27 +82,7 @@
 
                      <!-- <span class="errormsg">erroe msg</span>-->
                     </div>
-                   <div class="form-group">
-                      <label >Password* :</label>
-                      <input type="password" class="form-control"  placeholder="Password" name="password"
-
-                              ng-model="form.password"
-                             required-message="'Password can not be blank. '"
-                             required>
-
-                    </div>
-                    <div class="form-group">
-                      <label >Re-Type Password* :</label>
-                      <input type="password" class="form-control"  placeholder="Re-Type Password" name="re_password"
-
-                             ng-model="form.re_password"
-                             required-message="'Re-Type password can not be blank. '"
-                             validator="form.re_password === form.password"
-                             invalid-message="'Passwords do not match!'"
-                             required>
-
-                    </div>
-                   <!-- <div class="form-group">
+                    <!-- <div class="form-group">
                       <label >Address :</label>
                       <input type="text" class="form-control" placeholder="Address" name="address"
 
@@ -111,7 +91,7 @@
                       &lt;!&ndash; <span class="errormsg">erroe msg</span>&ndash;&gt;
                     </div>-->
 
-                    <!--<div class="form-group">
+                   <!-- <div class="form-group">
                       <label >Mobile Number* :</label>
                       <input type="text" class="form-control" placeholder="Mobile Number" name="mobile_no"
 
@@ -175,6 +155,7 @@
                   </div><!-- /.box-body -->
 
                   <div class="box-footer" style="background:none; height:auto; padding-bottom:0px; padding-top:0px;">
+                    <button ui-sref="myprofile" type="button" class="btn btn-primary">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form>

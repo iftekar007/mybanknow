@@ -107,11 +107,45 @@ function finder_menu()
         'access callback' => TRUE,
         'access arguments' => array('Anonymous Actions.'),
         'expanded' => TRUE,
+     //'type'=>MENU_NORMAL_ITEM,
+ );
+    $items['adminchangepassword'] = array(
+        'title' => 'Login',
+        'page callback' => 'adminchangepassword',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
 
 
     return $items;
+}
+
+
+function adminchangepassword(){
+
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    //print_r($_POST);
+    $user_fields = user_load(@intval($_REQUEST['uid']));
+    //$user_fields = user_load(74);
+    //print_r($_POST);
+    //$user_fields->pass=@$_POST['password'];
+    require_once 'includes/password.inc';
+    $user_fields->pass=user_hash_password(@$_POST['newpassword']);
+    $x= user_save($user_fields);
+    //print_r($x);
+
+    $data['status'] = 'success';
+    echo json_encode($data);
+
+
+
 }
 
 
@@ -370,7 +404,7 @@ function addfinder(){
         $query = db_insert('finder')->fields(array('user_id','refferal_code','email','password', 'fname', 'lname','bname','address','phone_no','mobile_no','contact_time','last_login'));
         //foreach ($values as $record) {
         $query->values(array($account->uid,'4',@$_POST['email'],'',@$_POST['fname'],@$_POST['lname'],'bn',
-            'ad','45','34','545',time()));
+            'ad',@$_POST['phone_no'],'34','545',time()));
         //}
         $query->execute();
     }

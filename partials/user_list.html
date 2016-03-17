@@ -39,8 +39,7 @@
                          <th>Last Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
-                        <th>Mobile Number</th>
-                        <th>Address</th>
+
                         <th>Role</th>
                          <th>Status</th>
                         <th>Action</th>
@@ -54,10 +53,9 @@
                         <td>{{item.lname}}</td>
                         <td> {{item.mail}}</td>
                         <td>{{item.phone_no}}</td>
-                        <td>{{item.mobile_no}}</td>
 
 
-                        <td> {{item.address}}</td>
+
                         <td> {{item.role}}</td>
 
                         <td><a href="javascript:void(0)" ng-click="changeStatus(item)"> {{(item.status==1) ? 'Active' : 'Blocked'}}</a> </td>

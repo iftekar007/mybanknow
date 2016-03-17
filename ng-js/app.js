@@ -310,6 +310,51 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             }
         }
     )
+
+        .state('edit-admin1',{
+            url:"/edit-admin1/:userId",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/edit_admin1.html' ,
+                    controller: 'editadmin1'
+                },
+
+            }
+        }
+    )
+        .state('edit-file',{
+            url:"/edit-file/:fileId",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/edit_file.html' ,
+                    controller: 'editfile'
+                },
+
+            }
+        }
+    )
         .state('edit-user',{
             url:"/edit-user/:userId",
             views: {
@@ -327,6 +372,28 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                 'content': {
                     templateUrl: 'partials/edit_user.html' ,
                     controller: 'edituser'
+                },
+
+            }
+        }
+    )
+  .state('edit-user1',{
+            url:"/edit-user1/:userId",
+            views: {
+
+                'admin_header': {
+                    templateUrl: 'partials/admin_top_menu.html' ,
+                    controller: 'admin_header'
+                },
+                'admin_left': {
+                    templateUrl: 'partials/admin_left.html' ,
+                },
+                'admin_footer': {
+                    templateUrl: 'partials/admin_footer.html' ,
+                },
+                'content': {
+                    templateUrl: 'partials/edit_user1.html' ,
+                    controller: 'edituser1'
                 },
 
             }
@@ -852,6 +919,51 @@ mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$roo
 
 
 
+    $scope.changepassword=function(uid){
+        $scope.uid=uid;
+
+        console.log('change password modal');
+
+        $('#changepassword').modal('show');
+
+
+
+    }
+
+    $scope.closemodal=function(){
+
+        $scope.add_finder.reset();
+
+        $('#changepassword').modal('hide');
+    }
+
+    $scope.updatepass = function () {
+
+        $scope.errorshow=false;
+        $scope.form.uid=$rootScope.userid;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminchangepassword?uid='+$scope.uid,
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data.status=='success') {
+                $rootScope.stateIsLoading = false;
+                $('#changepassword').modal('hide');
+
+                return;
+            }
+            if(data.status=='error'){
+                console.log('in error');
+                $scope.errorshow=true;
+                $rootScope.stateIsLoading = false;
+            }
+        });
+    }
+
 
     //console.log('in add admin form ');
 });
@@ -1234,6 +1346,49 @@ mybanknow.controller('editadmin', function($scope,$state,$http,$cookieStore,$roo
 
 
 })
+mybanknow.controller('editadmin1', function($scope,$state,$http,$cookieStore,$rootScope,$stateParams){
+
+    $scope.userid=$stateParams.userId;
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     :     $scope.adminUrl+'admindetails',
+        data    : $.param({'uid':$scope.userid}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        console.log(data);
+        $scope.form = {
+            uid: data.uid,
+            refferal_code: data.refferal_code,
+            fname: data.fname,
+            lname: data.lname,
+            bname: data.bname,
+            email: data.email,
+            address: data.address,
+            phone_no: data.phone_no,
+            mobile_no: data.mobile_no,
+            contact_time: data.contact_time,
+        }
+    });
+    $scope.update = function () {
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminupdates',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $state.go('myprofile');
+            return
+        });
+    }
+
+
+})
 
 mybanknow.controller('myprofile', function($scope,$state,$http,$cookieStore,$rootScope,$stateParams){
 
@@ -1339,3 +1494,187 @@ mybanknow.controller('edituser', function($scope,$state,$http,$cookieStore,$root
 
 
 })
+mybanknow.controller('edituser1', function($scope,$state,$http,$cookieStore,$rootScope,$stateParams){
+
+    $scope.userid=$stateParams.userId;
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     :     $scope.adminUrl+'finderdetails',
+        data    : $.param({'uid':$scope.userid}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        console.log(data);
+        $scope.form = {
+            uid: data.uid,
+            refferal_code: data.refferal_code,
+            fname: data.fname,
+            lname: data.lname,
+            bname: data.bname,
+            email: data.email,
+            address: data.address,
+            phone_no: data.phone_no,
+            mobile_no: data.mobile_no,
+            contact_time: data.contact_time,
+            role: data.roleid,
+        }
+    });
+    $scope.update = function () {
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminupdates',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            $state.go('myprofile');
+            return
+        });
+    }
+
+
+})
+
+mybanknow.controller('editfile', function($scope,$state,$http,$cookieStore,$rootScope,Upload,$stateParams) {
+    // $state.go('login');
+    $scope.contact=['Anytime','Early morning','Mid morning','Afternoon','Early evening','Late evening'];
+
+
+    $scope.form={};
+    $scope.form.resume = '';
+
+
+
+    $scope.fileid=$stateParams.fileId;
+
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     :     $scope.adminUrl+'employementdetails',
+        data    : $.param({'id':$scope.fileid}),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        console.log(data);
+        $scope.form = {
+            id: data.id,
+
+            fname: data.fname,
+            desc: data.lname,
+            event_image: data.resume,
+            resume: data.resume,
+            email: data.email,
+            role: data.rolid,
+            phone_no: data.phone_no,
+            mobile_no: data.mobile_no,
+            contact_time: data.contact_time,
+        }
+    });
+
+
+    $scope.$watch('event_imgupload', function (files) {
+        $scope.formUpload = false;
+        if (files != null) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.errorMsg = null;
+                (function (file) {
+                    upload(file);
+                    console.log('in upload');
+                })(files[i]);
+            }
+        }
+    });
+
+    $scope.getReqParams = function () {
+        return $scope.generateErrorOnServer ? '?errorCode=' + $scope.serverErrorCode +
+        '&errorMessage=' + $scope.serverErrorMsg : '';
+    };
+
+    function upload(file) {
+        $scope.errorMsg = null;
+        console.log('-----');
+        uploadUsingUpload(file);
+    }
+
+    function uploadUsingUpload(file) {
+        $rootScope.stateIsLoading = true;
+        file.upload = Upload.upload({
+            url: $scope.adminUrl+'uploadresume' + $scope.getReqParams(),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            fields: {'id':$rootScope.createIdeaId},
+            file: file,
+            fileFormDataName: 'Filedata'
+        });
+
+        file.upload.then(function (response) {
+            $('.progress').removeClass('ng-hide');
+            file.result = response.data;
+
+            $scope.form.resume = response.data.image_url;
+            $scope.form.event_image = response.data.image_name;
+            $rootScope.stateIsLoading = false;
+
+            //$('#loaderDiv').addClass('ng-hide');
+
+
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        });
+
+        file.upload.progress(function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            // $('#loaderDiv').removeClass('ng-hide');
+
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+
+        });
+
+        file.upload.xhr(function (xhr) {
+            // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
+        });
+    }
+
+
+
+    /*file upload end */
+
+
+    $scope.submitadminForm = function(){
+
+        console.log($scope.adminUrl+'addadmin');
+
+
+
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'updateemployement',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            if(data.status == 'error'){
+                console.log(data);
+                $('.email_div').append('<label class="control-label has-error validationMessage">This email already exists.</label>');
+            }else{
+                $state.go('file-list');
+                return;
+            }
+
+
+
+        });
+
+
+    }
+
+    //console.log('in add admin form ');
+});

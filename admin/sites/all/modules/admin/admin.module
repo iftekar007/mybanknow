@@ -248,7 +248,7 @@ function addadmin(){
         $query = db_insert('admin')->fields(array('user_id','email','password', 'fname', 'lname','address','phone_no','mobile_no','create_time','	last_login'));
         //foreach ($values as $record) {
         $query->values(array($account->uid,@$_POST['email'],'',@$_POST['fname'],@$_POST['lname'],
-            $_POST['address'],@$_POST['phone_no'],@$_POST['mobile_no'],time(),time()));
+            '66',@$_POST['phone_no'],'66',time(),time()));
         //}
         $query->execute();
     }
@@ -281,7 +281,7 @@ function adminupdates(){
         //->expression('weight', 'weight + :weight', array(':weight' => 1))
         ->fields(array('fname'=>@$_POST['fname'], 'lname'=>@$_POST['lname'],'email'=>@$_POST['email'],
 
-            'address'=>@$_POST['address'],'phone_no'=>@$_POST['phone_no'],'mobile_no'=>@$_POST['mobile_no']))
+            'phone_no'=>@$_POST['phone_no']))
         ->condition('user_id', intval($_POST['uid']))
          ->execute();
 }
