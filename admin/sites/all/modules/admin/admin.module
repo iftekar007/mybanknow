@@ -350,11 +350,14 @@ function adminlogin(){
         //print_r($user);
 
         $queryu = db_select('users', 'u');
-        if($user->roles[4]=='siteadmin')$queryu->join('admin', 'a', 'a.user_id = u.uid');
-        if($user->roles[5]=='agent'||$user->roles[6]=='client')$queryu->join('finder', 'p', 'p.user_id = u.uid');
+        if(@$user->roles[4]=='siteadmin')$queryu->join('admin', 'a', 'a.user_id = u.uid');
+        if(@$user->roles[6]=='Agent'||@$user->roles[5]=='Client'){
+            //echo "in finder join";
+            $queryu->join('finder', 'p', 'p.user_id = u.uid');
+        }
         $queryu->fields('u', array('uid','created','status','login','mail'));
-        if($user->roles[4]=='siteadmin')$queryu->fields('a',array('fname','lname','phone_no','mobile_no','address','create_time'));
-        if($user->roles[5]=='agent'||$user->roles[6]=='client') $queryu->fields('p',array('fname','lname'));
+        if(@$user->roles[4]=='siteadmin')$queryu->fields('a',array('fname','lname','phone_no','mobile_no','address','create_time'));
+        if(@$user->roles[6]=='Agent'||@$user->roles[5]=='Client') $queryu->fields('p',array('fname','lname'));
         $queryu->condition('u.uid', $user->uid, '=');
 
         //->range(0, 20);

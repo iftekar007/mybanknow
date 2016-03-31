@@ -7,7 +7,7 @@
 
 /* App Module */
 
-var mybanknow = angular.module('mybanknow', ['ui.router','ngCookies','angularValidator','ngFileUpload']);
+var mybanknow = angular.module('mybanknow', ['ui.router','ngCookies','angularValidator','ngFileUpload','ui.bootstrap','angular-confirm']);
 
 mybanknow.run(['$rootScope', '$state',function($rootScope, $state){
 
@@ -16,8 +16,17 @@ mybanknow.run(['$rootScope', '$state',function($rootScope, $state){
     });
 
 
-    $rootScope.$on('$stateChangeSuccess',function(){
+    $rootScope.$on('$stateChangeSuccess',function(ev, to, toParams, from, fromParams){
+
         $rootScope.stateIsLoading = false;
+        $rootScope.previousState = from.name;
+        $rootScope.currentState = to.name;
+
+
+        $(document).scrollTop(0);
+
+
+       // console.log($rootScope.popupHeight);
     });
 
 
@@ -65,7 +74,7 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             views: {
 
                   'header': {
-                 templateUrl: 'partials/header.html' ,
+                 templateUrl: 'partials/mycloud-header.html' ,
                  //controller: 'header'
                  },
                  'footer': {
@@ -86,7 +95,7 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             views: {
 
                 'header': {
-                    templateUrl: 'partials/header.html' ,
+                    templateUrl: 'partials/mycloud-header.html' ,
                     //controller: 'header'
                 },
                 'footer': {
@@ -95,7 +104,7 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                 },
                 'content': {
                     templateUrl: 'partials/new-account.html' ,
-                    //controller: 'home'
+                    controller: 'business_account'
                 },
 
             }
@@ -110,12 +119,12 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                     //controller: 'header'
                 },
                 'footer': {
-                    templateUrl: 'partials/footer.html' ,
+                    templateUrl: 'partials/chooselogin-footer.html' ,
                     //controller: 'footer'
                 },
                 'content': {
                     templateUrl: 'partials/choose-login.html' ,
-                    //controller: 'home'
+                    controller: 'chooselogin'
                 },
 
             }
@@ -146,7 +155,7 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             views: {
 
                 'header': {
-                    templateUrl: 'partials/header.html' ,
+                    templateUrl: 'partials/mycloud-header.html' ,
                     //controller: 'header'
                 },
                 'footer': {
@@ -155,7 +164,7 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
                 },
                 'content': {
                     templateUrl: 'partials/mycloud-account.html' ,
-                    //controller: 'home'
+                    controller: 'mycloudaccount'
                 },
 
             }
@@ -484,15 +493,15 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
             url:"/login",
             views: {
 
-                /*              'header': {
-                 templateUrl: 'partials/admin_header.html' ,
-                 controller: 'header'
+                              'header': {
+                 templateUrl: 'partials/header.html' ,
+                 /*controller: 'header'*/
                  },
                  'footer': {
-                 templateUrl: 'partials/admin_footer.html' ,
+                 templateUrl: 'partials/chooselogin-footer.html' ,
                  //controller: 'footer'
                  },
-                 */                'content': {
+                                 'content': {
                     templateUrl: 'partials/login.html' ,
                     controller: 'login'
                 },
@@ -514,7 +523,69 @@ mybanknow.config(function($stateProvider, $urlRouterProvider,$locationProvider) 
 
 
 
+        .state('forgot-password',
+        {
+            url:"/forgot-password" ,
+            views:{
+				
+				              'header': {
+                 templateUrl: 'partials/header.html' ,
+                 /*controller: 'header'*/
+                 },
+                 'footer': {
+                 templateUrl: 'partials/chooselogin-footer.html' ,
+                 //controller: 'footer'
+                 },
+				 
+                'content':{
+                    templateUrl:    'partials/forgot_password.html',
+                    controller:     'forgotpassword'
+                }
+            }
+        }
+    )
 
+        .state('forgot-password-check',
+        {
+            url:"/forgot-password-check" ,
+            views:{
+                'header': {
+                    templateUrl: 'partials/header.html' ,
+                    /*controller: 'header'*/
+                },
+                'footer': {
+                    templateUrl: 'partials/chooselogin-footer.html' ,
+                    //controller: 'footer'
+                },
+
+                'content':{
+                    templateUrl:    'partials/forgot_password_check.html',
+                    controller:     'forgotpasswordcheck'
+                }
+            }
+        }
+    )
+
+        .state('change-password',
+        {
+            url:"/change-password" ,
+            views:{
+                'header': {
+                    templateUrl: 'partials/header.html' ,
+                    /*controller: 'header'*/
+                },
+                'footer': {
+                    templateUrl: 'partials/chooselogin-footer.html' ,
+                    //controller: 'footer'
+                },
+
+                'content':{
+                    templateUrl:    'partials/change_password.html',
+                    controller:     'change_password'
+                }
+            }
+        }
+    )
 
 
 
@@ -664,6 +735,19 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
 });
 
 mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-55)+'px';
+    //console.log($rootScope.popupHeight);
+
+     $('.peracc_body').css('height',$rootScope.requiredHeight);
+   // $('.peracc_body').height($rootScope.requiredHeight);
+
     $scope.login = function(){
         $rootScope.stateIsLoading = true;
         console.log(1);
@@ -729,23 +813,264 @@ mybanknow.controller('login', function($scope,$state,$http,$cookieStore,$rootSco
 });
 
 
+mybanknow.controller('forgotpassword', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-55)+'px';
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+
+    $scope.forgotpasssubmit = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'forgotpass',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            if(data.status == 'success'){
+                $cookieStore.put('user_id',data.userdetails.user_id);
+                $cookieStore.put('user_email',data.userdetails.email);
+
+                $rootScope.user_id=$cookieStore.get('user_id');
+                $rootScope.user_email=$cookieStore.get('user_email');
+
+                // console.log($rootScope.user_email);
+                // console.log($rootScope.user_id);
+                //console.log($rootScope.refferalcodes);
+
+                $state.go('forgot-password-check');
+
+
+            }else{
+                $scope.errormsg = data.msg;
+            }
+
+        });
+    }
+});
+mybanknow.controller('forgotpasswordcheck', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-55)+'px';
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+
+    $scope.form={email:$rootScope.user_email,refferal_code:$rootScope.refferalcodess}
+    $scope.forgotpasschecksubmit = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'forgotpassaccesscheck',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            if(data.status == 'success'){
+                $state.go('change-password');
+                return
+
+            }else{
+                $scope.errormsg = data.msg;
+            }
+
+        });
+    }
+});
+
+mybanknow.controller('change_password', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-55)+'px';
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+
+    $scope.form={email:$rootScope.user_email,user_id:$rootScope.user_id}
+    $scope.changepassFormSubmit = function(){
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'changepasswords',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            $rootScope.stateIsLoading = false;
+            if(data.status == 'success'){
+                $state.go('login');
+                return
+
+            }else{
+                $scope.errormsg = data.msg;
+            }
+
+        });
+    }
+});
+
 
 
 
 mybanknow.controller('businessaccount', function($scope,$state,$http,$cookieStore,$rootScope) {
+
+
     $scope.businessaccountsubmit = function(){
         $('#businessmodal').modal('show');
 
     }
 });
 
+mybanknow.controller('mycloudaccount', function($scope,$state,$http,$cookieStore,$rootScope) {
+
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-152)+'px';
+//console.log($rootScope.popupHeight);
+
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+});
+mybanknow.controller('chooselogin', function($scope,$state,$http,$cookieStore,$rootScope) {
+
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-55)+'px';
+//console.log($rootScope.popupHeight);
+
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+});
+
+
+
+mybanknow.controller('business_account', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-152)+'px';
+//console.log($rootScope.popupHeight);
+
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.adminUrl+'countrylist',
+       // data    : $.param($scope.form),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        //$rootScope.stateIsLoading = false;
+       $scope.countrylist=data.countrylist
+
+    });
+
+console.log($scope.countrylist);
+
+    $scope.form={};
+    $scope.customvalidator=function(){
+
+        console.log(typeof($scope.form.agent_name));
+        console.log(typeof($scope.form.have_agent));
+        console.log(typeof($scope.form.agent_number));
+
+        if(typeof ($scope.form.have_agent)=='undefined' ){
+
+            if( typeof($scope.form.agent_name)=='undefined' || typeof($scope.form.agent_number)=='undefined'){
+
+                console.log(typeof($scope.form.agent_name));
+                console.log('in error');
+
+                return "Either put Agent Name and Number or Let us know from where you learned about Mybank Now ?";
+
+            }
+
+
+
+        }
+        else{
+            if($scope.form.have_agent.length==0){
+
+                if( $scope.form.agent_name.length==0 || $scope.form.agent_number.length==0){
+
+                    console.log(($scope.form.agent_name));
+                    console.log('in error');
+
+                    return "Either put Agent Name and Number or Let us know from where you learned about Mybank Now ?";
+
+                }
+
+            }
+
+        }
+
+        return true;
+    }
+
+    $scope.businessaccountformsubmit = function(){
+        angular.extend($scope.form,  {'source_type' : 'businessaccount'});
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addmycloud',
+             data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            $('#businessmodal').modal('show');
+
+        });
+
+    }
+});
+
 mybanknow.controller('personalsignup', function($scope,$state,$http,$cookieStore,$rootScope) {
+    $rootScope.popupHeight = $(window).height();
+    $rootScope.headerHeight = $('.peracc_head').innerHeight();
+    $rootScope.footerHeight = $('.peracc_footer').innerHeight();
+    console.log($rootScope.popupHeight);
+    console.log($rootScope.headerHeight);
+    console.log($rootScope.footerHeight);
+
+    $rootScope.requiredHeight=($rootScope.popupHeight-152)+'px';
+//console.log($rootScope.popupHeight);
+
+    $('.peracc_body').css('height',$rootScope.requiredHeight);
+
     $scope.personalsignupformsubmit = function(){
-        $('#personalmodal').modal('show');
+       // $('#personalmodal').modal('show');
 
 
     }
 });
+
+
 
 
 mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$rootScope,$log) {
@@ -754,6 +1079,9 @@ mybanknow.controller('admin_header', function($scope,$state,$http,$cookieStore,$
 
 
     //
+
+
+
 
 
 
@@ -848,7 +1176,7 @@ $rootScope.togglesidebar=function(){
 
 
 
-mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$rootScope) {
+mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$rootScope,$confirm) {
     $scope.currentPage=1;
     $scope.perPage=3;
     $scope.begin=0;
@@ -886,20 +1214,27 @@ mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$roo
         return false;
     };
     $scope.deladmin = function(item){
-        $rootScope.stateIsLoading = true;
-        var idx = $scope.userlist.indexOf(item);
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.adminUrl+'deleteadmin',
-            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            $scope.userlist.splice(idx,1);
-            $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
 
-        });
+
+        $confirm({text: 'Are you sure you want to delete?'})
+            .then(function() {
+                $rootScope.stateIsLoading = true;
+
+                var idx = $scope.userlist.indexOf(item);
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.adminUrl+'deleteadmin',
+                    data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }) .success(function(data) {
+                    $rootScope.stateIsLoading = false;
+                    $scope.userlist.splice(idx,1);
+                    $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+                });
+            });
+
     }
 
     $scope.changeStatus = function(item){
@@ -925,6 +1260,7 @@ mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$roo
         console.log('change password modal');
 
         $('#changepassword').modal('show');
+        $scope.add_finder.reset();
 
 
 
@@ -968,7 +1304,7 @@ mybanknow.controller('adminlist', function($scope,$state,$http,$cookieStore,$roo
     //console.log('in add admin form ');
 });
 
-mybanknow.controller('userlist', function($scope,$state,$http,$cookieStore,$rootScope) {
+mybanknow.controller('userlist', function($scope,$state,$http,$cookieStore,$rootScope,$confirm) {
     $scope.currentPage=1;
     $scope.perPage=3;
     $scope.begin=0;
@@ -1006,20 +1342,24 @@ mybanknow.controller('userlist', function($scope,$state,$http,$cookieStore,$root
         return false;
     };
     $scope.deladmin = function(item){
-        $rootScope.stateIsLoading = true;
-        var idx = $scope.userlist.indexOf(item);
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.adminUrl+'deladmin',
-            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            $scope.userlist.splice(idx,1);
-            $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+        $confirm({text: ' Are you sure you want to delete this user? This cannot be undone.'})
+            .then(function() {
+                $rootScope.stateIsLoading = true;
 
-        });
+                var idx = $scope.userlist.indexOf(item);
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.adminUrl+'deleteadmin',
+                    data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }) .success(function(data) {
+                    $rootScope.stateIsLoading = false;
+                    $scope.userlist.splice(idx,1);
+                    $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+                });
+            });
     }
 
     $scope.changeStatus = function(item){
@@ -1039,12 +1379,61 @@ mybanknow.controller('userlist', function($scope,$state,$http,$cookieStore,$root
 
 
 
+    $scope.changepassword=function(uid){
+        $scope.uid=uid;
+
+        console.log('change password modal');
+
+        $('#changepassword').modal('show');
+        $scope.add_finder.reset();
+
+
+
+    }
+
+    $scope.closemodal=function(){
+
+        $scope.add_finder.reset();
+
+        $('#changepassword').modal('hide');
+    }
+
+    $scope.updatepass = function () {
+
+        $scope.errorshow=false;
+        $scope.form.uid=$rootScope.userid;
+
+        $rootScope.stateIsLoading = true;
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'adminchangepassword?uid='+$scope.uid,
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            if(data.status=='success') {
+                $rootScope.stateIsLoading = false;
+                $('#changepassword').modal('hide');
+
+                return;
+            }
+            if(data.status=='error'){
+                console.log('in error');
+                $scope.errorshow=true;
+                $rootScope.stateIsLoading = false;
+            }
+        });
+    }
+
+
+
+
 
     //console.log('in add admin form ');
 });
 
 
-mybanknow.controller('filelist', function($scope,$state,$http,$cookieStore,$rootScope) {
+mybanknow.controller('filelist', function($scope,$state,$http,$cookieStore,$rootScope,$confirm) {
     $scope.currentPage=1;
     $scope.perPage=3;
     $scope.begin=0;
@@ -1061,7 +1450,7 @@ mybanknow.controller('filelist', function($scope,$state,$http,$cookieStore,$root
     $http({
         method  : 'POST',
         async:   false,
-        url     : $scope.adminUrl+'employementlist',
+        url     : $scope.adminUrl+'employementlist?role='+$rootScope.userrole,
         // data    : $.param($scope.form),  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     }) .success(function(data) {
@@ -1081,21 +1470,25 @@ mybanknow.controller('filelist', function($scope,$state,$http,$cookieStore,$root
         }
         return false;
     };
-    $scope.deladmin = function(item){
-        $rootScope.stateIsLoading = true;
-        var idx = $scope.userlist.indexOf(item);
-        $http({
-            method  : 'POST',
-            async:   false,
-            url     : $scope.adminUrl+'deladmin',
-            data    : $.param({uid: $scope.userlist[idx].uid}),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        }) .success(function(data) {
-            $rootScope.stateIsLoading = false;
-            $scope.userlist.splice(idx,1);
-            $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+    $scope.delcontact = function(item){
+        $confirm({text: 'Are you sure you want to delete?'})
+            .then(function() {
+                $rootScope.stateIsLoading = true;
 
-        });
+                var idx = $scope.userlist.indexOf(item);
+                $http({
+                    method  : 'POST',
+                    async:   false,
+                    url     : $scope.adminUrl+'delfile',
+                    data    : $.param({id: $scope.userlist[idx].id}),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }) .success(function(data) {
+                    $rootScope.stateIsLoading = false;
+                    $scope.userlist.splice(idx,1);
+                    $scope.userlistp = $scope.userlist.slice($scope.begin, parseInt($scope.begin+$scope.perPage));
+
+                });
+            });
     }
 
     $scope.changeStatus = function(item){
@@ -1174,7 +1567,7 @@ mybanknow.controller('adduser', function($scope,$state,$http,$cookieStore,$rootS
                 console.log(data);
                 $('.email_div').append('<label class="control-label has-error validationMessage">This email already exists.</label>');
             }else{
-                $state.go('admin-list');
+                $state.go('user-list');
                 return;
             }
 
@@ -1410,6 +1803,7 @@ mybanknow.controller('myprofile', function($scope,$state,$http,$cookieStore,$roo
         console.log('change password modal');
 
         $('#changepassword').modal('show');
+        $scope.add_finder.reset();
 
 
 

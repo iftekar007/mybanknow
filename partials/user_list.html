@@ -11,8 +11,8 @@
             
           </ol>
             <div class="newblock1">
- <a ui-sref="add-admin" class="addfrinderbtn">Add User</a>
-            <input type="text" name="search" ng-model="searchkey" class="search1" placeholder="Search Admin">
+ <a ui-sref="add-user" class="addfrinderbtn">Add User</a>
+            <input type="text" name="search" ng-model="searchkey" class="search1" placeholder="Search User">
                
                 <div class="clear"></div>
             </div>
@@ -40,7 +40,7 @@
                         <th>Email</th>
                         <th>Phone Number</th>
 
-                        <th>Role</th>
+                        <th>Permissions</th>
                          <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -59,7 +59,10 @@
                         <td> {{item.role}}</td>
 
                         <td><a href="javascript:void(0)" ng-click="changeStatus(item)"> {{(item.status==1) ? 'Active' : 'Blocked'}}</a> </td>
-                        <td> <a ui-sref="edit-user({userId:item.uid})" >Edit</a>&nbsp;&nbsp;<a href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a></td>
+                        <td> <a ui-sref="edit-user({userId:item.uid})" >Edit</a>
+                            &nbsp;&nbsp;<a href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a>
+                            &nbsp;&nbsp;<a href="javascript:void(0)" ng-click="changepassword(item.uid)" >Change Password</a>
+                        </td>
                       </tr>
 
                     </tbody>
@@ -93,3 +96,111 @@
           </div>   <!-- /.row -->
         </section><!-- /.content -->
       </div>
+
+
+
+
+
+<div id="changepassword" class="modal fade" role="dialog">
+
+    <div class="modal-dialog">
+
+
+
+        <!-- Modal content-->
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+
+            </div>
+
+            <div class="modal-body">
+
+
+
+                <h2><img  alt="#" src="images/logo.png"></h2>
+
+                <h4 class="modal-title">Change Your Password  </h4>
+
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 ng-show="errorshow" class="box-title">Incorrect Password !!</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal" angular-validator-submit="updatepass()" id="add_finder" name="add_finder" role="form" novalidate angular-validator>
+                        <div class="box-body">
+                            <!--   <div class="form-group">
+                                   <label class="col-sm-2 control-label" for="inputEmail3">Old Password</label>
+
+                                   <div class="col-sm-10">
+                                       <input type="password" placeholder="Old Password" id="inputEmail3"
+                                              name="oldpasword"
+
+                                              ng-model="form.oldpasword"
+
+                                              class="form-control"
+                                              required-message="'Old password  can not be blank.'"
+                                              required>
+                                   </div>
+                               </div>-->
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputPassword3">Password</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" placeholder="Password" id="inputPassword3" class="form-control"
+                                           name="newpassword"
+
+                                           ng-model="form.newpassword"
+
+                                           class="form-control"
+                                           required-message="'New password  can not be blank.'"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputEmail3">Re-type Password</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" placeholder="Confirm Password" id="confirmpassword" class="form-control"
+                                           name="newpassword"
+
+                                           ng-model="form.retypepassword"
+
+                                           class="form-control"
+                                           required-message="'Re-Type password can not be blank. '"
+                                           validator="form.retypepassword === form.newpassword"
+                                           required-message="'Re-type password  can not be blank.'"
+                                           required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <button ng-click="closemodal()" class="btn btn-default" type="submit">Cancel</button>
+                            <button class="btn btn-info pull-right" type="submit">Change Password</button>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+</div>

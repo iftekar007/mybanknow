@@ -62,7 +62,7 @@
 
                         <td><a href="javascript:void(0)" ng-click="changeStatus(item)"> {{(item.status==1) ? 'Active' : 'Blocked'}}</a> </td>
                         <td> <a ui-sref="edit-admin({userId:item.uid})" >Edit</a>&nbsp;&nbsp;
-                            <a href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a>
+                            <a class="example" data-toggle="confirmation-singleton" data-placement="left" data-original-title="" title="" href="javascript:void(0)" ng-click="deladmin(item)" >Delete</a>
                             &nbsp;&nbsp;<a href="javascript:void(0)" ng-click="changepassword(item.uid)" >Change Password</a></td>
                       </tr>
 

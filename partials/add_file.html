@@ -49,7 +49,7 @@
 
 
                       <div class="form-group">
-                          <label >Upload File * :</label>
+                          <label > File Description * :</label>
                           <textarea
                                   ng-model="form.desc"
                                   class="form-control"
@@ -64,7 +64,7 @@
 
                       <div class="form-group">
                           <label >File Name* :</label>
-                          <input type="button" name="resume"  value="Upload Resume" class="uploadbtn"  ngf-drop ngf-select ng-model="event_imgupload" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
+                          <input type="button" name="resume"  value="Upload File" class="uploadbtn"  ngf-drop ngf-select ng-model="event_imgupload" ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" ngf-multiple="false" ngf-allow-dir="true" ngf-accept="'*'" ngf-drop-available="dropAvailable" ngf-capture="camera">
 
                           <span class="clearfix resumefilename  resumefilename2" >{{form.event_image}}</span>
 
@@ -146,6 +146,7 @@
                   </div><!-- /.box-body -->
 
                   <div class="box-footer" style="background:none; height:auto; padding-bottom:0px; padding-top:0px;">
+                      <button type="button" ui-sref="{{previousState}}" class="btn btn-primary">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form>

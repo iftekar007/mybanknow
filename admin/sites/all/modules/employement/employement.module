@@ -77,6 +77,14 @@ function employement_menu()
         'expanded' => TRUE,
         //'type'=>MENU_NORMAL_ITEM,
     );
+    $items['delfile'] = array(
+        'title' => 'event Updates',
+        'page callback' => 'delfile',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
 
 
 
@@ -140,6 +148,8 @@ function employementlist()
     // ->condition('u.name', '%' . db_like('john') . '%', 'LIKE')
     // ->condition('ur.rid', 5, '=');
     //->condition('u.uid', 74, '=');
+    if($_REQUEST['role']==5 || $_REQUEST['role'] ==6 )
+        $queryu->condition('ev.phone', $_REQUEST['role'], '=');
     //->range(0, 20);
     $resultu = $queryu->execute();
 
@@ -292,7 +302,7 @@ function updateemployementstatus(){
     echo "true";
 }
 
-function deleteemployement(){
+function delfile(){
 
     header('Content-type: text/html');
     header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
@@ -301,7 +311,7 @@ function deleteemployement(){
     header('Access-Control-Max-Age: 1000');
     header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
 
-    $num_deleted = db_delete('event')
+    $num_deleted = db_delete('employement')
         ->condition('id', @$_POST['id'])
         ->execute();
 

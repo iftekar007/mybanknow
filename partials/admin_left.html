@@ -34,32 +34,33 @@
            <!-- <li class="active"><a href="javascript:void(0)"><i class="fa fa-link"></i> <span>Link</span></a></li>-->
 			<li><a href="javascript:void(0);" ui-sref="dashboard"><i class="glyphicon glyphicon-dashboard"></i><span>Dashboard</span></a></li>
             <li><a href="javascript:void(0);" ui-sref="myprofile"><i class="glyphicon glyphicon-asterisk"></i><span>Profile</span></a></li>
-            
+            <li ng-if="userrole==5 || userrole==6"><a href="javascript:void(0);" ui-sref="file-list"><i class="glyphicon glyphicon-compressed"></i><span>Files</span></a></li>
 
-            <li class="treeview">
-              <a href="javascript:void(0)"><i class="fa fa-user"></i> <span>User Manager</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
+
+            <li   ng-if="userrole==4">
+              <a href="javascript:void(0)"><i class="fa fa-user"></i> <span>User Manager</span> </a>
+              <ul class="down_list">
                 <li><a ui-sref="add-user">Add User</a></li>
                 <li><a ui-sref="user-list">User List</a></li>
               </ul>
             </li>
-              <li class="treeview">
-                  <a href="javascript:void(0)"><i class="fa fa-user-md"></i> <span>Admin Manager</span> <i class="fa fa-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
+              <li   ng-if="userrole==4">
+                  <a href="javascript:void(0)"><i class="fa fa-user-md"></i> <span>Admin Manager</span> </a>
+                  <ul class="down_list">
                       <li><a ui-sref="add-admin">Add Admin</a></li>
                       <li><a ui-sref="admin-list">Admin List</a></li>
                   </ul>
               </li>
 
-              <li class="treeview">
-                  <a href="javascript:void(0)"><i class="glyphicon glyphicon-compressed"></i> <span>File Manager</span> <i class="fa fa-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                      <li><a ui-sref="add-file">Add File</a></li>
+              <li  ng-if="userrole==4">
+                  <a href="javascript:void(0)"><i class="glyphicon glyphicon-compressed"></i> <span>File Manager</span> </a>
+                  <ul class="down_list">
+                      <li><a ui-sref="add-file" >Add File</a></li>
                       <li><a ui-sref="file-list">File List</a></li>
                   </ul>
               </li>
 
-              <li><a ui-sref="logout"><i class="glyphicon glyphicon-off"></i><span>Logout</span></a></li>
+              <li><a ng-click="logout()"><i class="glyphicon glyphicon-off"></i><span>Logout</span></a></li>
 
 
 

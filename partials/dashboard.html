@@ -7,8 +7,13 @@
         <section class="content-header">
           <h1>
             Dashboard
+            
+            
             <small></small>
           </h1>
+          
+          <img ng-if="userrole==5" src="images/agentlogin.png" alt="#" style="width:100%;">
+          <img ng-if="userrole==6" src="images/clientlogin.png" alt="#" style="width:100%;">
           <ol class="breadcrumb">
             <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Dashboard</li>
@@ -45,7 +50,7 @@
               </div><!-- /.info-box -->
             </div>
             </a>
-            <a href="javascript:void(0);" ui-sref="user-list">
+            <a href="javascript:void(0);" ui-sref="user-list" ng-if="userrole==4">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><img src="images/aicon3.png" alt="#" style="display:block; margin:20px auto; width:50px;"></span>
@@ -58,7 +63,7 @@
             </div>
             </a>
             
-            <a href="javascript:void(0);" ui-sref="admin-list">
+            <a href="javascript:void(0);" ui-sref="admin-list" ng-if="userrole==4">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><img src="images/aicon4.png" alt="#" style="display:block; margin:21px auto; width:48px;"></span>
@@ -113,7 +118,7 @@
                 </div><!-- /.info-box-content 
               </div><!-- /.info-box
             </div>-->
-            <a href="javascript:void(0);" ui-sref="logout">
+            <a href="javascript:void(0);" ng-click="logout()">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><img src="images/aicon9.png" alt="#" style="display:block; margin:24px auto; width:48px;"></span>
