@@ -96,6 +96,33 @@ function admin_menu()
         //'type'=>MENU_NORMAL_ITEM,
     );
 
+    $items['forgotpass'] = array(
+        'title' => 'Forgot Password',
+        'page callback' => 'forgotpass',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+    $items['forgotpassaccesscheck'] = array(
+        'title' => 'Access Code Check',
+        'page callback' => 'forgotpassaccesscheck',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+    $items['changepasswords'] = array(
+        'title' => 'Change Password',
+        'page callback' => 'changepassword1',
+        'access callback' => TRUE,
+        'access arguments' => array('Anonymous Actions.'),
+        'expanded' => TRUE,
+        //'type'=>MENU_NORMAL_ITEM,
+    );
+
+
 
     return $items;
 }
@@ -415,3 +442,174 @@ function adminlogin(){
     }
 
 }
+
+function forgotpass(){
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: '.CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    $queryu1 = db_select('users', 'u')
+        ->fields('u')
+        ->condition('u.mail', @$_POST['email'], '=');
+    $resultu1 = $queryu1->execute();
+    if($resultu1->rowCount()>0) {
+
+        $user=user_load_by_mail(@$_POST['email']);
+
+
+            while ($recordu = $resultu1->fetchAssoc()) {
+                $userlist['email'] = $recordu['mail'];
+                $userlist['user_id'] = $recordu['uid'];
+                $data['status']='success';
+                $data['userdetails'] = $userlist;
+
+            }
+
+
+        $randomdom_string=substr(str_shuffle(str_repeat('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',6)),0,6);
+            $query = db_update('users')->fields(array('access_code' => $randomdom_string))
+                ->condition('mail', @$_POST['email'], '=');
+
+         $result = $query->execute();
+
+        $to =$_POST['email'];
+        $subject = "Change Password Of MyBankNow";
+        $output="Change Your Password. Your Access Code Is <b>".$randomdom_string."</b>";
+        //  $headers= "From: info@spectrumiq.com\r\nReply-To: info@spectrumiq.com";
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+        $data['mail']=@mail($to, $subject, $output, $headers);
+
+    }
+    else{
+        $data['msg']='Invalid email';
+        $data['status']='error';
+    }
+    echo json_encode($data);
+    return;
+
+}
+
+function forgotpassaccesscheck()
+{
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: ' . CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+    $queryu1 = db_select('users', 'u')
+        ->fields('u')
+        ->condition('u.mail', @$_POST['email'], '=')
+        ->condition('u.access_code', @$_POST['access_code'], '=');
+    $resultu1 = $queryu1->execute();
+    if($resultu1->rowCount()>0) {
+
+        $user = user_load_by_mail(@$_POST['email']);
+        //print_r($user);
+
+
+
+            while ($recordu = $resultu1->fetchAssoc()) {
+                $userlist['email'] = $recordu['mail'];
+                $userlist['user_id'] = $recordu['uid'];
+                $data['status'] = 'success';
+                $data['userdetails'] = $userlist;
+
+            }
+
+
+    }
+    else{
+        $data['msg']='Invalid access code';
+        $data['status']='error';
+
+    }
+    echo json_encode($data);
+    return;
+
+
+}
+
+function changepassword1(){
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: ' . CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+
+    //print_r($_POST);
+    $queryu = db_select('users', 'u')
+        ->fields('u')
+        ->condition('u.uid', @$_POST['user_id'], '=')
+        ->condition('u.mail', @$_POST['email'], '=');
+
+    $resultu = $queryu->execute();
+
+    if ($resultu->rowCount() > 0) {
+
+        while ($recordu = $resultu->fetchAssoc()) {
+            $pass = $recordu['pass'];
+
+        }
+
+    }
+    $user_fields = user_load(@intval($_POST['user_id']));
+    $x= user_authenticate($user_fields->name,$pass);
+    // print_r($user_fields);
+    //if($x>0 ) {
+    require_once 'includes/password.inc';
+    $user_fields->pass=user_hash_password(@$_POST['password']);
+    user_save($user_fields);
+    $data['status'] = 'success';
+    //$data['userdetails'] = $userarr;
+    echo json_encode($data);
+    $language=LANGUAGE_NONE;
+    $d=drupal_mail('customuser', 'resetsuccess', "info@mybanknow.com", $language, $params = array('email'=>@$user_fields->mail), $from = "info@mybanknow.com", $send = TRUE);
+
+    return;
+    /* }else{
+         if($x>0 && $user_fields->status==0){
+         $data['status'] = 'error';
+         $data['msg'] = 'User not valid';
+
+         echo json_encode($data);
+         return;
+
+         }*/
+    // }
+
+
+
+}
+
+function customuser_mail ($key, &$message, $params) {
+    header('Content-type: text/html');
+    header('Access-Control-Allow-Origin: ' . CUSTOM_URL);  //I have also tried the * wildcard and get the same response
+    header("Access-Control-Allow-Credentials: true");
+    header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    header('Access-Control-Max-Age: 1000');
+    header('Access-Control-Allow-Headers: Content-Type, Content-Range, Content-Disposition, Content-Description');
+
+    switch ($key) {
+
+        case 'resetsuccess':
+            // Set headers etc
+            $message['to'] = $params['email'];
+            $message['subject'] = t('Password Change was successfull');
+            $message['headers']['MIME-Version'] = '1.0';
+            $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed';
+            $message['headers']['Content-Transfer-Encoding'] = '8Bit';
+            $message['headers']['X-Mailer'] = 'Drupal';
+
+            //$message['body'][] = t('Hello @username,', array('@username' => $params['username']));
+            $message['body'][] = "You have changed your password successfully ! -- MyBankNow team";
+            break;
+     }
+}
+

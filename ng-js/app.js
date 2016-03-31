@@ -624,8 +624,19 @@ mybanknow.directive('myCustomer', function() {
 });*/
 
 
-mybanknow.controller('index', function($scope,$state,$cookieStore) {
+mybanknow.controller('index', function($scope,$state,$cookieStore,$http) {
 
+    $http({
+        method  : 'POST',
+        async:   false,
+        url     : $scope.adminUrl+'countrylist',
+        // data    : $.param($scope.form),  // pass in data as strings
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }) .success(function(data) {
+        //$rootScope.stateIsLoading = false;
+        $scope.countrylist=data
+
+    });
 
     $scope.form={};
 
@@ -717,7 +728,24 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
     }
 
     $scope.carrer_sellingformsubmit=function(){
-        $('#submitshowmodal').modal('show');
+
+
+        angular.extend($scope.form,  {'source_type' : 'careerselling'});
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addmycloud',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            $('#submitshowmodal').modal('show');
+            $scope.careerselling.reset();
+
+        });
+
+
     }
     $scope.contactformshowform=function(){
 
@@ -726,11 +754,41 @@ mybanknow.controller('index', function($scope,$state,$cookieStore) {
     }
 
     $scope.contact_supportformsubmit=function(){
-        $('#contactsupportsubmitshowmodal').modal('show');
+
+
+
+        angular.extend($scope.form,  {'source_type' : 'contactsupport'});
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addmycloud',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            $('#contactsupportsubmitshowmodal').modal('show');
+            $scope.contactsupport.reset();
+
+        });
     }
 
     $scope.contactformsubmit=function(){
-        $('#contactowmodal').modal('show');
+
+        angular.extend($scope.form,  {'source_type' : 'contact'});
+
+        $http({
+            method  : 'POST',
+            async:   false,
+            url     : $scope.adminUrl+'addmycloud',
+            data    : $.param($scope.form),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }) .success(function(data) {
+            //$rootScope.stateIsLoading = false;
+            $('#contactowmodal').modal('show');
+            $scope.contact.reset();
+
+        });
     }
 });
 
@@ -986,11 +1044,11 @@ mybanknow.controller('business_account', function($scope,$state,$http,$cookieSto
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     }) .success(function(data) {
         //$rootScope.stateIsLoading = false;
-       $scope.countrylist=data.countrylist
+       $scope.countrylist=data
 
     });
 
-console.log($scope.countrylist);
+//console.log($scope.countrylist);
 
     $scope.form={};
     $scope.customvalidator=function(){
@@ -1044,6 +1102,7 @@ console.log($scope.countrylist);
         }) .success(function(data) {
             //$rootScope.stateIsLoading = false;
             $('#businessmodal').modal('show');
+            $scope.businessaccount.reset();
 
         });
 
